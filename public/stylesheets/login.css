@@ -1,0 +1,167 @@
+.bgCol {
+    background: rgba(65, 65, 65, 0.43);
+    backdrop-filter: blur(5px);
+    background: url(../images/bgLogin.SVG), lightgray 50% / cover no-repeat;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    margin: 0;
+    padding: 15px;
+
+}
+
+a {
+    color: #1e3935;
+}
+
+a:hover {
+    color: #1c1c1c;
+}
+
+.user-management {
+    width: 80%;
+    border-radius: 20px;
+    box-shadow: 0 5px 5px rgba(0, 0, 0, .4);
+    margin: 5em auto;
+    display: flex;
+    flex-direction: column;
+    /* Align the content in a column */
+    align-items: center;
+    /* Center the content horizontally */
+
+}
+
+.main-content {
+    width: 50%;
+    border-radius: 20px;
+    box-shadow: 0 5px 5px rgba(0, 0, 0, .4);
+    margin: 5em auto;
+    display: flex;
+    flex-direction: column;
+    /* Align the content in a column */
+    align-items: center;
+    /* Center the content horizontally */
+
+}
+
+.logInTitle {
+    text-align: left;
+    /* Align the "Log In" header to the left */
+    margin-left: 0;
+    /* Remove the default margin */
+
+}
+
+.company__info {
+    align-self: flex-start;
+    /* Align the company info to the left (top) */
+
+    background-color: #008080;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: #fff;
+}
+
+.fa-android {
+    font-size: 3em;
+}
+
+@media screen and (max-width: 640px) {
+    .main-content {
+        width: 90%;
+    }
+
+    .company__info {
+        display: none;
+    }
+
+    .login_form {
+        border-top-left-radius: 20px;
+        border-bottom-left-radius: 20px;
+    }
+}
+
+@media screen and (min-width: 642px) and (max-width:800px) {
+    .main-content {
+        width: 70%;
+    }
+}
+
+.login_form>div {
+    text-align: center;
+}
+
+.row>h2 {
+    color: #008080;
+}
+
+.login_form {
+    opacity: 0.8;
+    /* Set the opacity to 0.8 */
+    background-color: rgba(255, 255, 255, 0.8);
+    /* Set the background color to transparent white */
+    align-self: center;
+    align-items: center;
+    margin: 5em auto;
+    
+    /* Align the login form to the left (top) */
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+
+    background-color: #fff;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    border-top: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+}
+
+
+
+form {
+    padding: 0 2em;
+}
+
+.form__input {
+    width: 95%;
+    /* Increase the width of input tags to 95% */
+
+    border: 0px solid transparent;
+    border-radius: 0;
+    border-bottom: 1px solid #aaa;
+    padding: 1em .5em .5em;
+    padding-left: 2em;
+    outline: none;
+    margin: 1.5em auto;
+    transition: all .5s ease;
+}
+
+.form__input:focus {
+    border-bottom-color: #008080;
+    box-shadow: 0 0 5px rgba(0, 80, 80, .4);
+    border-radius: 4px;
+}
+
+.btn {
+    transition: all .5s ease;
+    width: 70%;
+    border-radius: 30px;
+    color: #008080;
+    font-weight: 600;
+    background-color: #fff;
+    border: 1px solid #008080;
+    margin-top: 1.5em;
+    margin-bottom: 1em;
+}
+
+.btn:hover,
+.btn:focus {
+    background-color: #008080;
+    color: #fff;
+}
+
+.logInTitle {
+    text-align: left;
+}

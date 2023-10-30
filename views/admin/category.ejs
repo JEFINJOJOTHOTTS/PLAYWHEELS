@@ -1,0 +1,123 @@
+<%- include('./adminParsels/head1.ejs') %>
+    <%- include('./adminParsels/header.ejs') %>
+
+
+        <section class="content-main">
+            <div class="content-header">
+                <div>
+                    <h2 class="content-title card-title">Categories </h2>
+                    <p>Add, edit or delete a category</p>
+                </div>
+                <div>
+                    <input type="text" placeholder="Search Categories" class="form-control bg-white">
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="table-responsive"> >
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" value="" />
+                                                </div>
+                                            </th>
+                                            <th>Category</th>
+                                            <th>Sub-Category</th>
+                                            <th>Image</th>
+                                            <th>Exist</th>
+                                          
+                                            <th class="text-end">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% for (let i=0; i < keys.length; i++) { %>
+                                            <tr>
+                                                <td></td>
+                                                <td class="align-middle" style="font-weight: bolder ;">
+                                                     
+                                                        <%= category[keys[i]] %>
+                                                    
+                                                </td><td></td><td></td><td></td>   <td class="text-center align-middle">
+                                                    <a class="btn btn-md rounded font-sm btn-warning" href="/admin/addNewSubCategory/<%= category[keys[i]] %>">Add New Sub-Category</a>
+                                                </td>
+                                          
+
+                                            </tr>
+                                            <% subCategory.forEach(function(item,index) { %>
+                                                <% if(item.Name===category[keys[i]]){%>
+                                                        <tr>
+                                                            <td class="align-left">
+                                                              
+
+                                                            </td>
+                                                            <td class="align-middle"> <!-- Center the checkbox -->
+                                                            </td>
+
+                                                            <td class="align-middle"><b>
+                                                                    <%= item.Sub %>
+                                                                </b>
+                                                            </td>
+                                                            <td class=" align-middle">
+                                                                <!-- Center and align the image -->
+                                                                <img id="image" src="/public/uploads/<%= item.Image %>"
+                                                                    style="max-width: 100%; height: 50px; display: block; "
+                                                                    alt="pro-img" class="src">
+                                                            </td>
+                                                            <td class="align-middle">
+                                                                <!-- Center and align the image -->
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input"
+                                                                        onclick="return isExist(`<%= item._id%>`)"
+                                                                        type="checkbox" id="<%= item._id %>"
+                                                                        name="<%= item.isExist %>" <%if(item.isExist ){
+                                                                        %>checked <%}%>
+                                                                        value="<%= item.isExist %>" />
+                                                                </div>
+
+                                                            </td>
+                                                            
+                                                            <td class="text-center align-middle">
+                                                                    <a href="/admin/editCategory/<%= item._id %>" class="btn btn-md rounded font-sm btn-warning">Edit
+                                                                        </a>
+                                                                    
+                                                            </td>
+                                                        </tr>
+                                                        <%}%>
+                                                        <% }) %>
+                                                            <% } %>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div> <!-- .col// -->
+                    </div> <!-- .row // -->
+                </div> <!-- card body .// -->
+            </div> <!-- card .// -->
+        </section> <!-- content-main end// -->
+        <%- include('./adminParsels/footerScript.ejs') %>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
+
+            <script>
+                function conformBlock() {
+                    alert
+                }
+
+                function isExist(categoryId) {
+                    event.preventDefault()
+                    const checkbox = document.getElementById(`${categoryId}`);
+                    const content = checkbox.checked ? true : false;
+                    const confirmed = confirm(`Confrim category exist need to be ${content} ?`);
+                    if (confirmed) {
+                        axios.get(`/admin/existCategory/${categoryId}/${content}`).then(() => {
+                            alert(`changed the category status`)
+                            document.getElementById(`${categoryId}`).checked = content
+
+                        })
+                    }
+
+                }
+            </script>

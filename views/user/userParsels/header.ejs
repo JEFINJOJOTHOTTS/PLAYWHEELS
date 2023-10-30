@@ -1,0 +1,214 @@
+<body>
+
+	<!-- Start Header Area -->
+	<header class="header_area sticky-header" style="top: 0px;">
+		<div class="main_menu">
+			<nav class="navbar navbar-expand-lg navbar-light main_box">
+				<div class="container">
+					<!-- Brand and toggle get grouped for better mobile display -->
+					<a class="navbar-brand logo_h" href="/">
+						<h1 class="navbar-logo">PLAYWHEELS</h1>
+					</a>
+					<button class="navbar-toggler" type="button" data-toggle="collapse"
+						data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+						aria-expanded="false" aria-label="Toggle navigation">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<!-- Collect the nav links, forms, and other content for toggling -->
+					<div class="collapse navbar-collapse offset" id="navbarSupportedContent">
+						<ul class="nav navbar-nav menu_nav ml-auto">
+							<li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+							<li class="nav-item"><a class="nav-link" href="/shop">Shop</a></li>
+							<li class="nav-item submenu dropdown active" style="display: none;">
+								<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
+									aria-haspopup="true" aria-expanded="false">Shop</a>
+								<ul class="dropdown-menu">
+									<li class="nav-item"><a class="nav-link" href="/shop">Shop Category</a></li>
+									<li class="nav-item"><a class="nav-link" href="/shop">Product
+											Details</a></li>
+									<li class="nav-item"><a class="nav-link" href="/placeOrder">Product Checkout</a>
+									</li>
+									<li class="nav-item active"><a class="nav-link" href="/cart">Shopping Cart</a>
+									</li>
+									<li style="display: none;" class="nav-item"><a class="nav-link"
+											href="confirmation.html">Confirmation</a>
+									</li>
+								</ul>
+							</li>
+							<li class="nav-item submenu dropdown" style="display: none;">
+								<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
+									aria-haspopup="true" aria-expanded="false">Blog</a>
+								<ul class="dropdown-menu">
+									<li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
+									<li class="nav-item"><a class="nav-link" href="single-blog.html">Blog Details</a>
+									</li>
+								</ul>
+							</li>
+							<li class="nav-item submenu dropdown" style="display: none;">
+								<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
+									aria-haspopup="true" aria-expanded="false">Pages</a>
+								<ul class="dropdown-menu">
+									<li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
+									<li class="nav-item"><a class="nav-link" href="tracking.html">Tracking</a></li>
+									<li class="nav-item"><a class="nav-link" href="elements.html">Elements</a></li>
+								</ul>
+							</li>
+							<li class="nav-item"  style="display: none;"><a class="nav-link" href="contact.html" >Contact </a></li>
+						</ul>
+						<ul class="nav navbar-nav navbar-right ">
+							<li class="nav-item ml-0">
+								<button style=" width:20px ; " class="search"><span class="lnr lnr-magnifier"
+										id="search_karma"></span></button>
+							</li>
+						</ul>
+						<ul class=" nav navbar-nav navbar-right">
+							<li class="nav-item submenu dropdown mt-1 ">
+								<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
+									aria-haspopup="true" aria-expanded="false"> <img class="svgInject"
+										style="width: 20px;" alt="Evara" src="/public/images/profile-icon.jpg">
+								</a>
+								<ul class="dropdown-menu">
+									<% if(user){ %>
+										<li class="nav-item"><a class="nav-link" href="/userProfile">
+												<%= userName%>
+											</a></li>
+
+										<li class="nav-item"><a class="nav-link" href="/userProfile">Profile</a></li>
+										<li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
+										<%}else{%>
+											<li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
+											<%}%>
+								</ul>
+							</li>
+
+							&nbsp
+							<div class=" header-action-right">
+								<div class=" header-action-2">
+									<div class="header-action-icon-2 dropdown" style="display: none;">
+										<a href="#" class="dropbtn">
+											<img class="svgInject" style="width: 20px;" alt="Evara"
+												src="/public/images/profile-icon.jpg">
+										</a>
+										<div class="dropdown-content">
+											<a href="#">Profile</a>
+											<a href="#">Logout</a>
+										</div>
+									</div>
+
+									<% if(user){ %>
+										<div class="header-action-icon-2 ml-4" id="wishlist" style="height: 25px;"><a
+												href="/wishlist">
+												<img class="svgInject" alt="Evara"
+													src="/public/evara/asset/imgs/theme/icons/icon-heart.svg">
+													<% if(wishlistCount!=0){ %><span class="pro-count blue">
+														<%= wishlistCount%>
+													</span>
+													<%}%>
+											</a>
+										</div>
+										<div class="header-action-icon-2 ml-4" id="cart" style="height: 25px;">
+											<a class="mini-cart-icon" href="/cart">
+												<img alt="Evara"
+													src="/public/evara/asset/imgs/theme/icons/icon-cart.svg">
+												 <% if(cartItems.length!==0){ %><span class="pro-count blue">
+													<%= totalAmount[0].TotalQuantity%>
+													</span>
+													<%}%>
+											</a>
+											<div class="cart-dropdown-wrap cart-dropdown-hm2">
+												<% if(cartItems.length===0){ %>
+
+													<div class="text-center">
+														<p style="font-size: x-large; margin-bottom: 3em;">your wishlist
+															is
+															empty..!</p>
+													</div>
+													<%}else{%>
+														<ul>
+															<% cartItems.forEach(function(cartItem) { %>
+																<li>
+																	<div class="shopping-cart-img">
+																		<a href="shop-product-right.html"><img
+																				alt="Evara"
+																				src="/public/product/<%= cartItem.Images %>"></a>
+																	</div>
+																	<div class="shopping-cart-title">
+																		<h4><a href="shop-product-right.html">
+																				<%= cartItem.Name %>
+																			</a>
+																		</h4>
+																		<h4><span>
+																				<%= cartItem.Quantity %> ×
+																			</span>₹<%= cartItem.Price%>
+																		</h4>
+																	</div>
+																	<div class="shopping-cart-delete">
+																		<a href="/viewProduct/<%= cartItem.id%>"><i
+																				class="fi-rs-cross-small"></i></a>
+																	</div>
+																</li>
+																<%})%>
+
+														</ul>
+														<div class="shopping-cart-footer">
+															<div class="shopping-cart-total">
+																<h4>Total <span>₹<%= totalAmount[0].DiscountedTotal%>
+																	</span>
+																</h4>
+															</div>
+															<div class="shopping-cart-button">
+																<a href="/cart" class="outline">View cart</a>
+																<a href="/placeOrder">Checkout</a>
+															</div>
+														</div>
+														<%}%>
+											</div>
+										</div>
+										<%}%>
+								</div>
+							</div>
+						</ul>
+
+					</div>
+				</div>
+			</nav>
+		</div>
+
+		<!-- <div class="search_input_karma" id="search_input_box_karma">
+			<div class="container">
+				<form class="d-flex justify-content-between">
+					<input type="text" class="form-control" id="search_input_karma" placeholder="Search Here">
+					<button type="submit" class="btn"></button>
+					<span class="lnr lnr-cross" id="close_search_karma" title="Close Search"></span>
+				</form>
+			</div>
+		</div> -->
+		<div class="search_input_karma" id="search_input_box_karma" >
+			<div class="container">
+				<form class="d-flex justify-content-between" action="/shop">
+					<input type="text" class="form-control" id="search_input" placeholder="Search Here" name="search">
+					<button type="submit" class="btn"></button>
+					<span class="lnr lnr-cross" id="close_search_karma" title="Close Search"></span>
+				</form>
+			</div>
+		</div>
+	</header>
+	<!-- End Header Area -->
+
+	<script>
+
+	// function searchKarma(){
+		// console.log('dkdkdkdkdk');
+		// $("#search_input_box_karma").hide();
+		// $("#search_karma").on("click", function () {
+		// 	$("#search_input_box_karma").slideToggle();
+		// 	$("#search_input_karma").focus();
+		// });
+		// $("#close_search_karma").on("click", function () {
+		// 	$('#search_input_box_karma').slideUp(500);
+		// });
+	// }
+
+	</script>

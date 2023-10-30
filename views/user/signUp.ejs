@@ -1,0 +1,312 @@
+<%- include('./userParsels/logHead.ejs') %>
+    <style>
+        /* #message {
+            display: none;
+        }
+
+        .valid:before {
+            display: none;
+        }
+
+        .valid {
+            display: none;
+        } */
+
+      
+        .invalid {
+            font-size: small;
+        }
+
+        .invalid:before {
+            font-size: small;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+
+    <body class="bgCol">
+
+        <div>
+            <h1 class="mt-3 ml-5"><a href="" class="text-decoration-none ">PLAYWHEELS</a></h1>
+            <!-- Main Content -->
+            <div
+                class="row container-fluid col-md-12 col-xs-12 col-sm-12 login_form  row main-content  text-center container-fluid">
+
+                <div class="row pt-2">
+                    <h2>SIGNUP</h2>
+                </div>
+
+                <form class="container  text-center" id="signUpForm" onsubmit="return validateForm()" action="/signup"
+                    method="post">
+                    <div class="row justify-content-center">
+                        <div class="col-md-5 mr-md-4">
+                            <div class="row">
+                                <label for="exampleFormControl" style="color: rgb(34, 34, 34);" class="mb-0 mt-1">First
+                                    Name</label>
+                                <input type="name" name="FirstName" id="fname" class="form__input pt-2 mt-1"
+                                    placeholder="First Name" onkeyup="fnameValidation()" required>
+                            </div>
+                        </div>
+                        <div class="col-md-5 ml-md-4">
+                            <div class="row">
+                                <label for="exampleFormControl" style="color: rgb(34, 34, 34);" class="mb-0 mt-1">Last
+                                    Name</label>
+                                <input type="name" name="LastName" id="lname" class="form__input pt-2 mt-1"
+                                    placeholder="Last Name" onkeyup="lnameValidation()" required>
+                            </div>
+                        </div>
+                        <div class="col-md-5 mr-md-4">
+                            <div class="row">
+                                <label for="exampleFormControl" style="color: rgb(34, 34, 34);" class="mb-0 mt-1">Mobile
+                                    No.</label>
+                            </div>
+                            <div class="row"> <select id="countryCode" name="Mobile[0]"
+                                    class="form__input ml-0 pl-0 pt-2 mt-1" style="width: 25%;" name="countryCode">
+                                    <option value="+91">India (+91)</option>
+                                    <option value="+1">USA (+1)</option>
+                                    <option value="+44">UK (+44)</option>
+                                    <!-- Add more country codes and names as needed -->
+                                </select>
+
+                                <input type="tel" name="Mobile[1]" id="mobile" class="form__input pt-2 mt-1"
+                                    style="width: 75%;" placeholder="Mobile No." onkeyup="mobileValidation()" required>
+                            </div>
+
+                        </div>
+                        <div class="col-md-5 ml-md-4">
+                            <div class="row">
+                                <label for="exampleFormControl" style="color: rgb(34, 34, 34);"
+                                    class="mb-0 mt-1">Email</label>
+                                <input type="email" name="Email" id="email" class="form__input pt-2 mt-1"
+                                    placeholder="Email" onkeyup="emailValidation()" required>
+
+                            </div>
+                        </div>
+                        <div class="col-md-5 mr-md-4">
+                            <div class="row">
+                                <label for="exampleFormControl" style="color: rgb(34, 34, 34);"
+                                    class="mb-0 mt-1">Password</label>
+
+                                <input type="password" id="password" name="Password" class="form__input pt-2 mt-1 mb-1"
+                                    placeholder="Password" onkeyup="passwordValidation()"
+                                    pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                                    title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
+                                    required />
+                                <div>
+                                <input type="checkbox" onclick="showPassword()" style="margin-right: 5px; font-size: 16px;"> Show Password
+</div>
+                                <div id="message">
+                                    <span id="messagePasword" class="invalid">
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-5 ml-md-4">
+                            <div class="row">
+                                <label for="exampleFormControl" style="color: rgb(34, 34, 34);"
+                                    class="mb-0 mt-1">Confirm Password</label>
+                                <input type="password" name="ConfirmPassword" id="confirmPassword"
+                                    onkeyup="confirmPasswordValidation()" class="form__input pt-2 mt-1 mb-1"
+                                    placeholder="Re-enter Password" required>
+                                <div> <input type="checkbox" onclick="showConfirmPassword()">Show Confirm Password
+                                </div>
+                                <div class="row ml-4 justify-content-center text-center">
+                                    <p class="text-center">
+                                        <span class="text-center" id='confirmMessage'></span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <% if (message){%>
+                        <div class="row pt-3 justify-content-center text-center">
+                            <p class=" mb-0" style="color: rgb(143, 49, 49);">
+                                <%=message%>
+                            </p>
+                        </div>
+                        <%}%>
+
+                            <div class="row justify-content-center">
+                                <input type="submit" value="Submit" class="btn">
+                            </div>
+                </form>
+
+                <div class="row">
+                    <p>Have an account : <a href="/login">Login </a></p>
+                </div>
+            </div>
+            <!-- Footer -->
+        </div>
+        <!-- Include jQuery from a CDN -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+        <script>
+            //country code
+
+
+            //Name validation
+            //const myForm = document.getElementById("myForm")
+
+
+            const fname = document.getElementById("fname")
+            const lname = document.getElementById("lname")
+            const email = document.getElementById("email")
+            const mobile = document.getElementById("mobile")
+            const password = document.getElementById("password")
+            const confirmPassword = document.getElementById("confirmPassword")
+
+
+            const nameRegex = /^[A-Za-z]+$/;
+            const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+            // const mobileRegex = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+            const mobileRegex = /^[2-9]{1}[0-9]{2}[2-9]{1}[0-9]{2}[0-9]{4}$/;
+
+
+            //First Name validation
+            function fnameValidation() {
+                const nameValue = fname.value
+                if (nameValue.trim() == 0) {
+                    fname.style.color = "red";
+                    return false;
+                }
+
+                if (!nameValue.match(nameRegex)) {
+                    fname.style.color = "red";
+                    return false;
+                }
+
+
+                console.log("first name")
+                fname.style.color = "#1e3932";
+                return true
+            }
+
+            //last Name validation
+            function lnameValidation() {
+                const nameValue = lname.value
+                if (nameValue.trim() == 0) {
+                    lname.style.color = "red";
+                    return false;
+                }
+
+                if (!nameValue.match(nameRegex)) {
+                    lname.style.color = "red";
+                    return false;
+                }
+
+                console.log("lastname")
+
+                lname.style.color = "#1e3932";
+                return true
+            }
+
+            //phone varification
+            function mobileValidation() {
+                const mobileValue = mobile.value
+                if (!mobileValue.match(mobileRegex)) {
+                    mobile.style.color = "red";
+                    return false;
+                }
+                mobile.style.color = "#1e3932";
+
+                console.log("mobile")
+                return true
+            }
+
+            //email varification
+            function emailValidation() {
+                const emailValue = email.value
+                if (!emailValue.match(emailRegex)) {
+                    email.style.color = "red";
+                    return false;
+                }
+                email.style.color = "#1e3932";
+
+                console.log("email")
+                return true
+            }
+
+            //show password
+            function showPassword() {
+                // let x = document.getElementById("password");
+                if (password.type === "password") {
+                    password.type = "text";
+                } else {
+                    password.type = "password";
+                }
+            }
+
+            //show confirm password
+            function showConfirmPassword() {
+                //let x = document.getElementById("confirmPassword");
+                if (confirmPassword.type === "password") {
+                    confirmPassword.type = "text";
+                } else {
+                    confirmPassword.type = "password";
+                }
+            }
+
+            //message Password
+
+            // When the user clicks on the password field, show the message box
+            // password.onfocus = function () {
+            //     document.getElementById("message").style.display = "block";
+            // }
+
+            // // When the user clicks outside of the password field, hide the message box
+            // password.onblur = function () {
+            //     document.getElementById("message").style.display = "none";
+            // }
+            function passwordValidation() {
+                // When the user starts to type something inside the password field
+                // password.onkeyup = function () {
+
+                // Validate capital letters
+                let upperCaseLetters = /[A-Z]/g;
+                // Validate lowercase letters
+                let lowerCaseLetters = /[a-z]/g;
+
+                // Validate numbers
+                let numbers = /[0-9]/g;
+                if (
+
+                    password.value.match(lowerCaseLetters) && password.value.match(upperCaseLetters) && password.value.match(numbers) && password.value.length >= 8) {
+                    messagePasword.innerHTML = ""
+                    console.log("password")
+                    return true
+                } else {
+                    messagePasword.innerHTML = "Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
+                    return false
+                }
+
+                // }
+            }
+
+
+            // confirm password
+            function confirmPasswordValidation() {
+                //      $('#password, #confirm_password').on('keyup', function () {
+                if ($('#password').val() == $('#confirmPassword').val()) {
+                    $('#confirmMessage').html('')
+                    console.log("confirm")
+                    return true
+                } else
+                    $('#confirmMessage').html('Not Matching');
+                return false
+                //   });
+            }
+
+            function validateForm() {
+                console.log("validate form")
+                if (fnameValidation() && lnameValidation() && mobileValidation() && emailValidation() && passwordValidation() && confirmPasswordValidation()) {
+                    return true
+                } else {
+                    return false
+                }
+            }
+
+        </script>
+    </body>
+
+    </html>

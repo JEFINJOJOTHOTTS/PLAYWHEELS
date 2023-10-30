@@ -1,0 +1,310 @@
+<%- include('./adminParsels/head1.ejs') %>
+    <%- include('./adminParsels/header.ejs') %>
+
+        <body>
+
+
+
+            <section class="content-main">
+                <div class="content-header ">
+                    <div>
+                        <h2 class="content-title card-title">Sales Report</h2>
+                    </div>
+                    <div class="d-flex">
+                        <div class="me-2">
+                            <button type="button" class="btn btn-primary btn-sm" onclick="pdf(event)"
+                                id="pdf">PDF</button>
+                        </div>
+                        <div>
+                            <button type="button" onclick="excel(event)" class="btn btn-primary btn-sm"
+                                id="xlsheet">Exel</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card mb-4">
+                    <header class="card-header">
+                        <form action="/admin/salesReport">
+                            <div class="row gx-3">
+                                <div class="col-lg-4 col-md-6 me-auto d-flex">
+                                    <input type="date" name="startDate" class="form-control bg-secondary-lite me-1"
+                                        required>
+                                    <input type="date" name="endDate" class="form-control bg-secondary-lite" required>
+                                </div>
+                                <div class="col-lg-2 col-6 col-md-3">
+                                    <button type="submit" class="btn btn-primary btn-lg">Search</button>
+                                </div>
+                        </form>
+                </div>
+                </header> <!-- card-header end// -->
+                <div class="card-body" id="sales-tableID">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>#orderID</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">payment method</th>
+                                    <th scope="col">Date</th>
+                                    <th scope="col" class="text-end">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody id="filterSalesReport">
+                                <% for(let i=0;i < response.length;i++){%>
+                                    <tr>
+                                        <td>
+                                            <%=response[i].ordersId %>
+                                        </td>
+                                        <td><b>
+                                                <%=response[i].firstname %>
+                                                    <%=response[i].lastName %>
+                                            </b></td>
+                                        <td>
+                                            <%=response[i].email %>
+                                        </td>
+
+
+                                        <td><span class="badge rounded-pill alert-success text-success">
+                                                <% if(response[i].paymentMethod==="COD" ){%>
+                                                    cash on delivery<%} else{%>
+                                                        <%=response[i].paymentMethod %>
+                                                            <%}%>
+                                            </span></td>
+                                        <td>
+                                            <%=response[i].createdAt %>
+                                        </td>
+                                        <td class="text-end">₹<%=response[i].totalPrice %>
+                                        </td>
+
+                                    </tr>
+
+                                    <%} %>
+
+                                        <% let totalPriceSum=0; %>
+                                            <% for (let i=0; i < response.length; i++) { %>
+                                                <% totalPriceSum +=response[i].totalPrice; %>
+                                                    <% } %>
+                                                        <tr id="SaleRep_grandtotal">
+                                                            <td colspan="5"></td>
+                                                            <td class="text-right" ">Total : ₹ <%= totalPriceSum %>
+                                                        </td>
+                                                    </tr>
+
+
+                        </tbody>
+                    </table>
+                </div> <!-- table-responsive //end -->
+            </div> <!-- card-body end// -->
+        </div> <!-- card end// -->
+        <div class=" pagination-area mt-15 mb-50" style="display: none;">
+                                                                <nav aria-label="Page navigation example">
+                                                                    <ul class="pagination justify-content-start">
+                                                                        <li class="page-item active"><a
+                                                                                class="page-link" href="#">01</a>
+                                                                        </li>
+                                                                        <li class="page-item"><a class="page-link"
+                                                                                href="#">02</a></li>
+                                                                        <li class="page-item"><a class="page-link"
+                                                                                href="#">03</a></li>
+                                                                        <li class="page-item"><a class="page-link dot"
+                                                                                href="#">...</a></li>
+                                                                        <li class="page-item"><a class="page-link"
+                                                                                href="#">16</a></li>
+                                                                        <li class="page-item"><a class="page-link"
+                                                                                href="#"><i
+                                                                                    class="material-icons md-chevron_right"></i></a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </nav>
+                    </div>
+            </section> <!-- content-main end// -->
+            <footer class="main-footer font-xs">
+                <div class="row pb-30 pt-15">
+                    <div class="col-sm-6">
+                        <script data-cfasync="false"
+                            src="../../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+                        <script>
+                            document.write(new Date().getFullYear())
+                        </script> ©, Evara - HTML Ecommerce Template .
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="text-sm-end">
+                            All rights reserved
+                        </div>
+                    </div>
+                </div>
+            </footer>
+
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.15.6/xlsx.full.min.js"></script>
+
+            <script>
+
+
+                function pdf(e) {
+
+                    swal("Are you sure want to download this ?", {
+                        buttons: ["No", "Yes"],
+                    }).then((res) => {
+                        if (res) {
+                            event.preventDefault();
+                            let element = document.getElementById('sales-tableID');
+                            // let randomNumber = Math.floor(Math.random() * 10000000 ) + 1;
+                            let newDate = new Date()
+                            var opt = {
+                                margin: 0,
+                                filename: 'SalesReport - ' + newDate + '.pdf',
+                                image: { type: 'jpeg', quality: 0.98 },
+                                html2canvas: { scale: 2 },
+                                jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+                            };
+
+                            // New Promise-based usage:
+                            html2pdf().set(opt).from(element).save();
+
+                            // Old monolithic-style usage:
+                            // html2pdf(element, opt);
+                            // var element = document.getElementById('sales-tableID');
+                            // let randomNumber = Math.floor(Math.random() * (10000000000 - 1)) + 1;
+                            // var opt = {
+                            //     margin: 0,
+                            //     filename: 'SalesReport' + randomNumber + '.pdf',
+                            //     html2canvas: { scale: 10 },
+                            //     jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+                            // };
+
+                            // html2pdf().set(opt).from(element).save();
+                        }
+                    })
+
+                }
+
+
+
+
+
+
+
+                // $(document).ready(function () {
+                //     $('#xlsheet').on('click', function () {
+                //         swal("Are you sure want to download this ?", {
+                //             buttons: ["No", "Yes"],
+                //         }).then((res) => {
+                //             if (res) {
+                //                 const rows = $('#filterSalesReport tr');
+                //                 const data = [];
+
+
+                //                 // Loop through rows and cells to build the data array
+                //                 rows.each(function (index, row) {
+                //                     const rowData = [];
+                //                     $(row).find('th, td').each(function (index, cell) {
+                //                         rowData.push($(cell).text());
+                //                     });
+                //                     data.push(rowData);
+                //                 });
+
+                //                 // Convert the data array to a SheetJS workbook and sheet
+                //                 const ws = XLSX.utils.aoa_to_sheet(data);
+                //                 const wb = XLSX.utils.book_new();
+                //                 XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+                //                 // Save the workbook as an Excel file
+                //                 XLSX.writeFile(wb, 'filterSalesReport.xlsx');
+                //             }
+                //         })
+
+                //     });
+                // });
+
+                //excel
+                function excel(event) {
+                    swal("Are you sure want to download this ?", {
+                        buttons: ["No", "Yes"],
+                    }).then((res) => {
+                        if (res) {
+                            ExportToExcel('xlsx')
+                        }
+                    })
+                }
+                function ExportToExcel(type, fn, dl) {
+                    let newDate = new Date()
+
+                    var elt = document.getElementById('sales-tableID');
+                    var wb = XLSX.utils.table_to_book(elt, { sheet: "sheet1" });
+                    return dl ?
+                        XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }) :
+                        XLSX.writeFile(wb, fn || ('SalesReport - ' + newDate + '.' + (type || 'xlsx')));
+                }
+
+
+                function filteredreport() {
+                    let startDate = document.getElementById("startDate").value
+                    let endDate = document.getElementById("endDate").value
+
+                    console.log(startDate, endDate);
+                    $.ajax({
+                        url: '/admin/filteredsalesReport',
+                        type: 'post',
+                        data: {
+                            startDate,
+                            endDate
+                        },
+                        success: function (response) {
+                            console.log("ajaxresponsse : ", response);
+                            let filteredsalesReport = ''
+                            let grantotaltag = ''
+                            let grantotal = 0
+                            for (let i = 0; i < response.length; i++) {
+                                let ele = response[i]
+                                grantotal += parseInt(ele.totalPrice)
+                                filteredsalesReport += `
+                <tr>
+                <td>
+                    ${ele.ordersId}
+                </td>
+                <td><b>
+                    ${ele.firstname}
+                    ${ele.lastName}
+                    </b></td>
+                <td>
+                ${ele.email}
+                   
+                </td>
+
+
+                <td><span class="badge rounded-pill alert-success text-success">
+                ${ele.paymentMethod}
+                           
+                    </span></td>
+                <td>
+                ${ele.createdAt}
+                  
+                </td>
+                <td class="text-end">₹ ${ele.totalPrice}
+                </td>
+
+            </tr>
+                `
+
+                            }
+                            filteredsalesReport += `
+            <tr>
+                <td colspan="5"></td>
+                 <td class="text-right" ">Total : ₹  ${grantotal}
+                 </td>
+            </tr>`
+
+                            $('#filterSalesReport').html(filteredsalesReport)
+
+                            console.log(grantotal);
+                        },
+                        error: function (err) {
+                            console.log(err);
+
+                        }
+                    });
+                }
+
+            </script>
+        </body>

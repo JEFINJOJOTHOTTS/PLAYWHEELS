@@ -1,0 +1,179 @@
+<%- include('./adminParsels/head1.ejs') %>
+<%- include('./adminParsels/header.ejs') %>
+
+
+    <head>
+        <style>
+            .userlistfont {
+                font-size: larger;
+                font-family: unset;
+            }
+
+            .uservaluefont {
+                font: caption;
+                font-family: system-ui;
+            }
+        </style>
+    </head>
+
+    
+
+        <section class="">
+            <div class="container d-flex justify-content-center">
+                <div class="row w-75 mt-5">
+                    <div class="col-md-12">
+                        <h2 class="text-center">Product List</h2>
+                        
+                    </div>
+
+                </div>
+            </div>
+        </section>
+        <!-- Table section -->
+        <section mx-auto>
+
+            <div class="card-body">
+                <div class="row mt-5 mx-auto">
+                    <div class="table-responsive">
+                        <div class="table-responsive">
+                            <table class="table align-middle table-nowrap mb-0">
+                                <thead class="table-light">
+                                    <tr class="userlistfont">
+                                        <th class="align-middle " scope="col">No:</th>
+                                        <th class="text-center align-middle" scope="col">Product Name</th>
+
+                                        <th class="text-center align-middle" scope="col">Category</th>
+                                        <th class="text-center align-middle" scope="col">Sub <br>Category</th>
+                                        <th class="text-center align-middle" scope="col">Quantity</th>
+                                        <th class="align-middle text-center" scope="col">Dimensions</th>
+                                        <th class="text-center align-middle" scope="col">Color</th>
+                                        <th class="align-middle text-center" scope="col">Brand</th>
+                                        <th class="text-center align-middle" scope="col">Price</th>
+                                        <th class="text-center align-middle" scope="col">Discount <br>percentage</th>
+                                        <th class="text-center align-middle" scope="col">Available<br> Colors</th>
+                                        <th class="align-middle text-center" scope="col">Listed</th>
+                                        <th class="align-middle text-center" scope="col">Image</th>
+                                        <th class="text-center align-middle" scope="col">Option</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <% product.forEach(function(item,index) { %>
+                                        <tr class="uservaluefont">
+                                            <td class="text-center">
+                                                <%=index+1 %>
+                                            </td>
+
+                                            <td class="text-center">
+                                                <%= item.Name %>
+                                            </td>
+                                            <td class="text-center">
+                                                <%= item.SubCategory.Name %>
+                                            </td>
+                                            
+                                            <td class="text-center">
+                                                <%= item.SubCategory.Sub %>
+                                            </td>
+
+                                            <td class="text-center">
+                                                <%= item.Stock %>
+                                            </td>
+                                            <td class="text-center">
+
+                                                Length <%= item.Dimensions[0] %><br>
+                                                    Width <%= item.Dimensions[0] %><br>Height <%= item.Dimensions[2] %>
+
+                                            </td>
+                                            <td class="text-center">
+                                                <%= item.Color %>
+                                            </td>
+                                            <td class="text-center">
+                                                <%= item.Manufacturer %>
+                                            </td>
+                                            <td class="text-center">
+                                                ₹ <%= item.Price %>
+                                            </td>
+                                            <td class="text-center">
+                                                <%= item.Discount %> %
+                                            </td>
+                                            <td class="text-center">
+                                                <% item.ColorOption.forEach(function(Color) { %>
+
+
+                                                    <%= Color.Color %>
+                                                        <br>
+                                                        <% }); %>
+                                            </td>
+                                            <td class="text-center">
+                                                <div class="form-check">
+                                                    <input class="form-check-input"
+                                                        onclick="return isListed(`<%= item._id%>`,`<%= item.Name%>`)"
+                                                        type="checkbox" id="<%= item._id %>" name="<%= item.isListed %>"
+                                                        <%if(item.isListed ){ %>checked
+                                                    <%}%> value="<%=item.isListed %>" />
+                                                </div>
+                                            </td>
+                                            <td style="vertical-align:top"><img
+                                                    src="/public/product/<%=item.Images[0] %>" alt=""
+                                                    style="width: 50px;height: 50px">
+                                            </td>
+
+                                            <td class="text-end" >
+                                                <div class="dropdown">
+                                                    <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
+                                                    <div class="dropdown-menu z-3">
+                                                        <a class="dropdown-item text-success" href="/admin/viewProduct/<%=item._id %>">View detail</a>
+                                                        <a class="dropdown-item text-warning" href="/admin/editProduct/<%=item._id %>">Edit info</a>
+                                                        <a class="dropdown-item " href="/admin/addNewColor/<%=item._id %>">Add New Color</a>
+                                                    </div>
+                                                </div> <!-- dropdown //end -->
+                                            </td>
+                                           
+
+
+
+                                        </tr>
+                                        <% }) %>
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- table-responsive end// -->
+                </div>
+            </div>
+        </section>
+
+    </body>
+
+    <script src="/public/evara/assets/js/vendors/jquery-3.6.0.min.js"></script>
+    <script src="/public/evara/assets/js/vendors/bootstrap.bundle.min.js"></script>
+    <script src="/public/evara/assets/js/vendors/select2.min.js"></script>
+    <script src="/public/evara/assets/js/vendors/perfect-scrollbar.js"></script>
+    <script src="/public/evara/assets/js/vendors/jquery.fullscreen.min.js"></script>
+    <!-- Main Script -->
+    <script src="/public/evara/assets/js/main.js" type="text/javascript"></script>
+    <script>
+        function isListed(productId, Name) {
+            event.preventDefault()
+            const checkbox = document.getElementById(`${productId}`);
+            let text = "Unlist"
+            let content = checkbox.checked ? true : false;
+            if (content) {
+                text = "Listed"
+            }
+            const confirmed = confirm(`Confrim ${Name} need to be ${text} ?`);
+            if (confirmed) {
+                axios.get(`/admin/listProduct/${productId}/${content}`).then(() => {
+                    alert(`changed the category status`)
+                    document.getElementById(`${productId}`).checked = content
+
+                })
+            }
+
+        }
+
+    </script>
+
+    </html>

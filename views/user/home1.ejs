@@ -1,0 +1,451 @@
+<%- include('./userParsels/head.ejs') %>
+    <%- include('./userParsels/header.ejs') %>
+
+
+        <section>
+            <div class="flexC" id="section1">
+                <div id="myCarousel" class="carousel slide" data-interval="false">
+                    <ol class="carousel-indicators">
+                        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                        <li data-target="#myCarousel" data-slide-to="1"></li>
+                        <li data-target="#myCarousel" data-slide-to="2"></li>
+                    </ol>
+
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <video controls autoplay loop muted class="myvid" id="player">
+                                <source src="/public/videos/section1.1.mp4" type="video/mp4">
+                            </video>
+                        </div>
+
+                        <div class="carousel-item">
+                            <video controls autoplay class="myvid" id="player2">
+                                <source src="/public/videos/videoLRmain.mp4" type="video/mp4">
+                            </video>
+                        </div>
+
+                        <div class="carousel-item">
+                            <video controls autoplay class="myvid" id="player2">
+                                <source
+                                    src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
+                                    type="video/mp4">
+                            </video>
+                        </div>
+                    </div>
+
+                    <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Vorige</span>
+                    </a>
+                    <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Volgende</span>
+                    </a>
+                </div>
+
+                <div class="flexR">
+                    <div class="videoName">
+                        <h2>THE NEW <br> RANGE ROVER SPORT​</h2>
+                        <p>VISCERAL, DRAMATIC, UNCOMPROMISING</p>
+                    </div>
+                    <div class="buildUrOwn">
+                        <div class="exploreBut"><a class="exploreA" href=""><span style="font-size: 30px;">&rarr;</span>
+                                EXPLORE THIS VEHICLE</a></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+
+        <!-- Categories Start -->
+
+
+        <div class="container-fluid pt-5">
+            <div class="row px-xl-5 pb-3">
+                <% for (let i=0; i<keysC.length ; i++) { %>
+                    <% if(category[keysC[i]].Exist){%>
+                        <div class="col-lg-4 col-md-6 pb-1">
+                            <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
+                                <p class="text-right">15 Products</p>
+                                <a href="" class="cat-img position-relative overflow-hidden mb-3">
+                                    <img class="img-fluid" src="/uploads/resized-<%= category[keysC[i]].Images[0] %>" alt="">
+                                </a>
+                                <h5 class="font-weight-semi-bold m-0">
+                                    <%= category[keysC[i]].Name %>
+                                </h5>
+                            </div>
+                        </div>
+                        <% } %>
+                            <% } %>
+            </div>
+        </div>
+        <!-- Categories End -->
+
+
+        <!-- Offer Start -->
+        <div class="container-fluid offer pt-5">
+            <div class="row px-xl-5">
+                <div class="col-md-6 pb-4">
+                    <div class="position-relative bg-secondary text-center text-md-right text-white mb-2 py-5 px-5">
+                        <img src="/public/images/car.png" alt="">
+                        <div class="position-relative" style="z-index: 1;">
+                            <h5 class="text-uppercase text-primary mb-3">20% off the all order</h5>
+                            <h1 class="mb-4 font-weight-semi-bold">World Automobile Day</h1>
+                            <a href="" class="btn btn-outline-primary py-md-2 px-md-3">Shop Now</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 pb-4">
+                    <div class="position-relative bg-secondary text-center text-md-left text-white mb-2 py-5 px-5">
+                        <img src="/public/images/builurown.png" alt="">
+                        <div class="position-relative" style="z-index: 1;">
+                            <h5 class="text-uppercase text-primary mb-3">20% off the all order</h5>
+                            <h1 class="mb-4 font-weight-semi-bold">Electric Car Day</h1>
+                            <a href="" class="btn btn-outline-primary py-md-2 px-md-3">Shop Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Offer End -->
+
+
+        <!-- Products Start -->
+        <div class="container-fluid pt-5">
+            <div class="text-center mb-4">
+                <h2 class="section-title px-5"><span class="px-2">Trandy Products</span></h2>
+            </div>
+            <% for (let i=0; i<keysP.length ; i++) { %>
+                <% if(product[keysP[i]].Exist){%>
+
+
+                    <div class="row px-xl-5 pb-3">
+                        <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
+                            <div class="card product-item border-0 mb-4">
+                                <div
+                                    class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
+                                    <img class="img-fluid w-100" src="/uploads/resized-<%= category[keysC[i]].Images[0]%>" alt="">
+                                </div>
+                                <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
+                                    <h6 class="text-truncate mb-3">
+                                        <%= product[keysP[i]].Name%>
+                                    </h6>
+                                    <div class="d-flex justify-content-center">
+                                        <h6>₹ <%= product[keysP[i]].Price %>
+                                        </h6>
+                                        <h6 class="text-muted ml-2"><del>₹ <%= product[keysP[i]].Price %></del></h6>
+                                    </div>
+                                </div>
+                                <div class="card-footer d-flex justify-content-between bg-light border">
+                                    <a href="/productdetails/<%= product[keysP[i]]._id%>" class="btn btn-sm text-dark p-0"><i
+                                            class="fas fa-eye text-primary mr-1"></i>View
+                                        Detail</a>
+                                    <a href="" class="btn btn-sm text-dark p-0"><i
+                                            class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
+                                </div>
+                            </div>
+                        </div>
+                        <% } %>
+                            <% } %>
+                    </div>
+        </div>
+        <!-- Products End -->
+
+
+        <!-- Subscribe Start -->
+        <div class="container-fluid bg-secondary my-5">
+            <div class="row justify-content-md-center py-5 px-xl-5">
+                <div class="col-md-6 col-12 py-5">
+                    <div class="text-center mb-2 pb-2">
+                        <h2 class="section-title px-5 mb-3"><span class="bg-secondary px-2">Stay Updated</span></h2>
+                        <p>Amet lorem at rebum amet dolores. Elitr lorem dolor sed amet diam labore at justo ipsum
+                            eirmod
+                            duo labore labore.</p>
+                    </div>
+                    <form action="">
+                        <div class="input-group">
+                            <input type="text" class="form-control border-white p-4" placeholder="Email Goes Here">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary px-4">Subscribe</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- Subscribe End -->
+
+
+        <!-- Products Start -->
+        <div class="container-fluid pt-5">
+            <div class="text-center mb-4">
+                <h2 class="section-title px-5"><span class="px-2">Just Arrived</span></h2>
+            </div>
+            <div class="row px-xl-5 pb-3">
+                <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
+                    <div class="card product-item border-0 mb-4">
+                        <div
+                            class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
+                            <img class="img-fluid w-100" src="../public/img/product-1.jpg" alt="">
+                        </div>
+                        <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
+                            <h6 class="text-truncate mb-3">Colorful Stylish Shirt</h6>
+                            <div class="d-flex justify-content-center">
+                                <h6>$123.00</h6>
+                                <h6 class="text-muted ml-2"><del>$123.00</del></h6>
+                            </div>
+                        </div>
+                        <div class="card-footer d-flex justify-content-between bg-light border">
+                            <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View
+                                Detail</a>
+                            <a href="" class="btn btn-sm text-dark p-0"><i
+                                    class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
+                    <div class="card product-item border-0 mb-4">
+                        <div
+                            class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
+                            <img class="img-fluid w-100" src="../public/img/product-2.jpg" alt="">
+                        </div>
+                        <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
+                            <h6 class="text-truncate mb-3">Colorful Stylish Shirt</h6>
+                            <div class="d-flex justify-content-center">
+                                <h6>$123.00</h6>
+                                <h6 class="text-muted ml-2"><del>$123.00</del></h6>
+                            </div>
+                        </div>
+                        <div class="card-footer d-flex justify-content-between bg-light border">
+                            <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View
+                                Detail</a>
+                            <a href="" class="btn btn-sm text-dark p-0"><i
+                                    class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
+                    <div class="card product-item border-0 mb-4">
+                        <div
+                            class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
+                            <img class="img-fluid w-100" src="../public/img/product-3.jpg" alt="">
+                        </div>
+                        <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
+                            <h6 class="text-truncate mb-3">Colorful Stylish Shirt</h6>
+                            <div class="d-flex justify-content-center">
+                                <h6>$123.00</h6>
+                                <h6 class="text-muted ml-2"><del>$123.00</del></h6>
+                            </div>
+                        </div>
+                        <div class="card-footer d-flex justify-content-between bg-light border">
+                            <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View
+                                Detail</a>
+                            <a href="" class="btn btn-sm text-dark p-0"><i
+                                    class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
+                    <div class="card product-item border-0 mb-4">
+                        <div
+                            class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
+                            <img class="img-fluid w-100" src="../public/img/product-4.jpg" alt="">
+                        </div>
+                        <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
+                            <h6 class="text-truncate mb-3">Colorful Stylish Shirt</h6>
+                            <div class="d-flex justify-content-center">
+                                <h6>$123.00</h6>
+                                <h6 class="text-muted ml-2"><del>$123.00</del></h6>
+                            </div>
+                        </div>
+                        <div class="card-footer d-flex justify-content-between bg-light border">
+                            <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View
+                                Detail</a>
+                            <a href="" class="btn btn-sm text-dark p-0"><i
+                                    class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
+                    <div class="card product-item border-0 mb-4">
+                        <div
+                            class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
+                            <img class="img-fluid w-100" src="../public/img/product-5.jpg" alt="">
+                        </div>
+                        <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
+                            <h6 class="text-truncate mb-3">Colorful Stylish Shirt</h6>
+                            <div class="d-flex justify-content-center">
+                                <h6>$123.00</h6>
+                                <h6 class="text-muted ml-2"><del>$123.00</del></h6>
+                            </div>
+                        </div>
+                        <div class="card-footer d-flex justify-content-between bg-light border">
+                            <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View
+                                Detail</a>
+                            <a href="" class="btn btn-sm text-dark p-0"><i
+                                    class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
+                    <div class="card product-item border-0 mb-4">
+                        <div
+                            class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
+                            <img class="img-fluid w-100" src="../public/img/product-6.jpg" alt="">
+                        </div>
+                        <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
+                            <h6 class="text-truncate mb-3">Colorful Stylish Shirt</h6>
+                            <div class="d-flex justify-content-center">
+                                <h6>$123.00</h6>
+                                <h6 class="text-muted ml-2"><del>$123.00</del></h6>
+                            </div>
+                        </div>
+                        <div class="card-footer d-flex justify-content-between bg-light border">
+                            <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View
+                                Detail</a>
+                            <a href="" class="btn btn-sm text-dark p-0"><i
+                                    class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
+                    <div class="card product-item border-0 mb-4">
+                        <div
+                            class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
+                            <img class="img-fluid w-100" src="../public/img/product-7.jpg" alt="">
+                        </div>
+                        <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
+                            <h6 class="text-truncate mb-3">Colorful Stylish Shirt</h6>
+                            <div class="d-flex justify-content-center">
+                                <h6>$123.00</h6>
+                                <h6 class="text-muted ml-2"><del>$123.00</del></h6>
+                            </div>
+                        </div>
+                        <div class="card-footer d-flex justify-content-between bg-light border">
+                            <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View
+                                Detail</a>
+                            <a href="" class="btn btn-sm text-dark p-0"><i
+                                    class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
+                    <div class="card product-item border-0 mb-4">
+                        <div
+                            class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
+                            <img class="img-fluid w-100" src="../public/img/product-8.jpg" alt="">
+                        </div>
+                        <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
+                            <h6 class="text-truncate mb-3">Colorful Stylish Shirt</h6>
+                            <div class="d-flex justify-content-center">
+                                <h6>$123.00</h6>
+                                <h6 class="text-muted ml-2"><del>$123.00</del></h6>
+                            </div>
+                        </div>
+                        <div class="card-footer d-flex justify-content-between bg-light border">
+                            <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View
+                                Detail</a>
+                            <a href="" class="btn btn-sm text-dark p-0"><i
+                                    class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Products End -->
+
+
+        <!-- Vendor Start -->
+        <div class="container-fluid py-5">
+            <div class="row px-xl-5">
+                <div class="col">
+                    <div class="owl-carousel vendor-carousel">
+                        <div class="vendor-item border p-4">
+                            <img src="../public/img/vendor-1.jpg" alt="">
+                        </div>
+                        <div class="vendor-item border p-4">
+                            <img src="../public/img/vendor-2.jpg" alt="">
+                        </div>
+                        <div class="vendor-item border p-4">
+                            <img src="../public/img/vendor-3.jpg" alt="">
+                        </div>
+                        <div class="vendor-item border p-4">
+                            <img src="../public/img/vendor-4.jpg" alt="">
+                        </div>
+                        <div class="vendor-item border p-4">
+                            <img src="../public/img/vendor-5.jpg" alt="">
+                        </div>
+                        <div class="vendor-item border p-4">
+                            <img src="../public/img/vendor-6.jpg" alt="">
+                        </div>
+                        <div class="vendor-item border p-4">
+                            <img src="../public/img/vendor-7.jpg" alt="">
+                        </div>
+                        <div class="vendor-item border p-4">
+                            <img src="../public/img/vendor-8.jpg" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Vendor End -->
+
+        <!-- footer -->
+        <%- include('./userparsels/footer.ejs') %>
+            <script>
+                let allVids = $("#myCarousel").find('.carousel-item');
+
+                allVids.each(function (index, el) {
+                    if (index !== 0) {
+                        $(this).find('video')[0].pause();
+                    }
+                });
+
+                $("#myCarousel").on('slide.bs.carousel', function (ev) {
+                    let slides = $(this).find('.carousel-item');
+                    let pvid = slides[ev.from].querySelectorAll('video')[0];
+                    let vid = slides[ev.to].querySelectorAll('video')[0];
+                    let isPlaying = vid.currentTime > 0 && vid.readyState > 2;
+
+                    vid.play();
+
+                    if (isPlaying) {
+                        pvid.pause();
+                    }
+                });
+
+                const navbarToggle = document.querySelector('.navbar-toggle');
+                const navbarMenu = document.querySelector('.navbar-left');
+
+                navbarToggle.addEventListener('click', () => {
+                    navbarToggle.classList.toggle('active');
+                    navbarMenu.classList.toggle('active');
+                });
+            </script>
+
+
+
+
+
+            <script src="personal-validation.js"></script>
+            <script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
+
+            <script src="https://kit.fontawesome.com/6f8f208131.js" crossorigin="anonymous"></script>
+
+            <!-- Optional JavaScript; choose one of the two! -->
+
+            <!-- Option 1: Bootstrap Bundle with Popper -->
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+                crossorigin="anonymous"></script>
+
+            <!-- Option 2: Separate Popper and Bootstrap JS -->
+            <!--
+      <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+      -->
+            </body>
+
+            </html>

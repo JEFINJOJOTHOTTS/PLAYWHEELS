@@ -1,0 +1,137 @@
+<%- include('./adminParsels/head1.ejs') %>
+    <%- include('./adminParsels/header.ejs') %>
+
+
+
+        <section class="content-main">
+            <div class="content-header">
+                <div>
+                    <h2 class="content-title card-title">Coupons </h2>
+                    <p>Add and manage coupons</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <form action="/admin/coupons" method="post">
+
+                                <label for="discount-percentage">Discount Percentage:</label>
+                                <input class="form-control" type="number" id="discount-percentage"
+                                    name="DiscountPercentage" required min="0" max="100">
+
+                                <label for="max-discount-amount">Max Discount Amount:</label>
+                                <input class="form-control" type="number" id="max-discount-amount"
+                                    name="MaxDiscountAmount" required min="0">
+
+                                <label for="minimum-purchase-amount">Minimum Purchase Amount:</label>
+                                <input class="form-control" type="number" id="minimum-purchase-amount" name="MinAmount"
+                                    required min="0">
+
+                                <label for="category">Category:</label>
+                                <select class="form-select" name="Category" id="main-category">
+                                    <% Category.forEach( function(category) { %>
+                                        <option value="<%= category%>">
+                                            <%= category%>
+                                        </option>
+                                        <% } ); %>
+                                </select>
+
+                                <label for="minimum-purchase-amount">Coupon Description:</label>
+                                <input class="form-control" type="text" id="coupon-description" name="Description"
+                                    required min="0">
+                                <hr>
+
+                                <label for="minimum-purchase-amount">expiry date</label>
+                                <input class="form-control" type="datetime-local" id="coupon-date" name="EndDate"
+                                    required min="0">
+                                <hr>
+
+                                <div>
+                                    <button type="submit" class="btn btn-primary">Create Coupon</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-md-9">
+                            <label for="minimum-purchase-amount">Coupon Description:</label>
+                            <div class="table-responsive">
+                                <table class="table table-hover" style="overflow: hidden;">
+                                    <thead>
+                                        <tr style="background-color: rgb(199, 210, 206);">
+                                            <th class="text-center">Sl No.</th>
+                                            <th class="text-center">Coupon code</th>
+                                            <th class="text-center">Offer Percentage</th>
+                                            <th class="text-center">Description</th>
+                                            <th class="text-center">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="ordersContainer">
+                                        <% Coupons.forEach(function(coupon, index){%>
+                                            <tr>
+                                                <td class="text-center">
+                                                    <%= index+1 %>
+                                                </td>
+                                                <td class="text-center">
+                                                    <%= coupon.CouponCode%>
+                                                </td>
+                                                <td class="text-center">
+                                                    <%= coupon.DiscountPercentage%>
+                                                </td>
+                                                <td class="text-center">
+                                                    <%= coupon.Description%>
+                                                        <br>Upto <%= coupon.MaxDiscountAmount%>
+                                                            <br> for a purchace <br>
+                                                            with minimum amount of ₹<%= coupon.MinAmount%> for category
+                                                                <%= coupon.Category%> <br>
+                                                                    valid till : <%= coupon.EndDate%>
+
+                                                </td>
+                                                <td class="text-center">
+                                                    <input class="form-check-input"
+                                                        onclick="return isListed(event,`<%= coupon._id%>`)"
+                                                        type="checkbox" id="<%= coupon._id %>"
+                                                        name="<%= coupon.CouponStatus %>" <%if(coupon.CouponStatus ){
+                                                        %>checked
+                                                    <%}%> value="<%=coupon.CouponStatus %>" />
+                                                </td>
+
+                                            </tr>
+                                            <%})%>
+                                    </tbody>
+                                </table>
+                                <div class="pagination-area mt-15 mb-50">
+                                    <nav aria-label="Page navigation example">
+                                        <ul id="paginationContainer" class="pagination justify-content-start">
+                                        </ul>
+                                    </nav>
+
+                                </div>
+                            </div>
+                        </div> <!-- .col// -->
+                    </div> <!-- .row // -->
+                </div> <!-- card body .// -->
+                <!-- card .// -->
+
+
+                <%- include('./adminParsels/footerScript.ejs') %>
+                    <script>
+
+                        function isListed(event, couponId) {
+                            event.preventDefault()
+                            const checkbox = document.getElementById(`${couponId}`);
+
+                            let content = checkbox.checked ? true : false;
+console.log("content   : ",content)
+
+
+                            axios.get(`/admin/couponStatus/${couponId}/${content}`).then(() => {
+                                alert(` status changed`)
+                                document.getElementById(`${couponId}`).checked = content
+
+
+                            })
+
+                        }
+
+
+                    </script>

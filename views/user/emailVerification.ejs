@@ -1,0 +1,90 @@
+<%- include('./userParsels/logHead.ejs') %>
+
+  <body class="bgCol">
+
+    <div>
+      <h1 class="mt-5 ml-5"><a href="" class="text-decoration-none ">PLAYWHEELS</a></h1>
+      <!-- Main Content -->
+      <div
+        class="container-fluid col-md-12 col-xs-12 col-sm-12 login_form  row main-content  text-center container-fluid">
+
+        <div class="row pt-2">
+          <h2>Email Verification</h2>
+        </div>
+        <% if (message){%>
+          <div class="row">
+              <p><%=message%></p>
+          </div>
+      <%}%>
+    
+        <div class="container">
+          <div class="row justify-content-center ">
+            <div control="" class="form-group " >
+              <div class="row">
+                <div  class="form__input text-left" ><p class="pb-0 mb-0 " ><%=Email%></p></div>
+  
+                <input class="d-none" type="email" name="Email" id="username" class="form__input" value=<%=Email%>>
+              </div>
+              <div class="row justify-content-center">
+                <p><span id="timer"></span> </p>
+                <a href="/emailVerification" type="submit"  class="btn">Re-send OTP</a>
+              </div>
+            </div>
+
+            <form control="" class="form-group col-md-5" action="/emailVerification" method="post">
+              <div class="row ">
+                <!-- <span class="fa fa-lock"></span> -->
+                <input type="text" name="Otp" id="otp" class="form__input" placeholder="OTP">
+              </div>
+              <div class="row justify-content-center">
+                <input id="submitButton" type="submit" value="Confirm" class="btn">
+                <p id="timeoutMessage" style="display: none; color: red;">OTP Timeout</p>
+            </div>
+             </form>
+          </div>
+        </div>
+        
+        <div class="row">
+          <p class=""><a href="/signup">Back</a></p>
+        </div>
+      </div>
+       <!-- Footer -->
+    </div>
+    <script>
+      function startTimer(duration, display) {
+        var timer = duration, minutes, seconds;
+        var interval = setInterval(function () {
+          minutes = parseInt(timer / 60, 10);
+          seconds = parseInt(timer % 60, 10);
+
+          minutes = minutes < 10 ? "0" + minutes : minutes;
+          seconds = seconds < 10 ? "0" + seconds : seconds;
+
+          display.textContent = minutes + ":" + seconds;
+
+          if (--timer < 0) {
+            clearInterval(interval);
+            display.style.display = "none"; // Hide the timer when it reaches 0:00
+          }
+        }, 1000);
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        var twoMinutes = 120,
+          display = document.querySelector("#timer");
+        startTimer(twoMinutes, display);
+      });
+
+     // Get the button and timeout message elements
+    const submitButton = document.getElementById('submitButton');
+    const timeoutMessage = document.getElementById('timeoutMessage');
+
+    // Disable the button and show timeout message after 2 minutes
+    setTimeout(() => {
+        submitButton.disabled = true;
+        timeoutMessage.style.display = 'block';
+    }, 2 * 60 * 1000); // 2 minutes in milliseconds
+    </script>
+ </body>
+
+  </html>

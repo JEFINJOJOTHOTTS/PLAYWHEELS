@@ -1,0 +1,48 @@
+<%- include('./userParsels/logHead.ejs') %>
+
+<body class="bgCol">
+             
+  <div >
+    <h1 class="mt-5 ml-5"><a href="/" class="text-decoration-none ">PLAYWHEELS</a></h1>
+    <!-- Main Content -->
+    <div
+      class="container-fluid col-md-12 col-xs-12 col-sm-12 login_form  row main-content  text-center container-fluid">
+
+      <div class="row pt-2">
+        <h2>Log In</h2>
+      </div>
+      <div class="row ">
+        <form  control="" action="/login" class="form-group" method="post">
+          <div class="row">
+            <input type="email" name="Email" id="username" class="form__input" placeholder="Email">
+          </div>
+          <div class="row">
+            <!-- <span class="fa fa-lock"></span> -->
+            <input type="password" name="Password" id="password" class="form__input" placeholder="Password">
+          </div>
+        
+          <div class="row justify-content-center">
+            <input type="submit" value="Submit" class="btn">
+          </div>
+        </form>
+        <% if (message){%>
+          <div class="row">
+              <p>Wrong User Name Or PassWord</p>
+          </div>
+      <%}%>
+     
+      </div>
+      <div class="row">
+        <p class="mb-0">Forget Password ? <a href="/forgetPassword">Click Here to Reset Password</a></p>
+      </div>
+      <div class="row">
+        <p>Don't have an account ? <a href="/signup">Register Here</a></p>
+      </div>
+    </div>
+    <!-- Footer -->
+  </div>
+  <script>
+  </script>
+</body>
+
+</html>

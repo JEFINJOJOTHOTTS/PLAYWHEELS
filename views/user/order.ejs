@@ -1,0 +1,337 @@
+<%- include('./userParsels/head1.ejs') %>
+    <%- include('./userParsels/header.ejs') %>
+
+        <section class="content-main p-5">
+            <div class="content-header">
+                <div>
+                    <h2 class="content-title card-title">Order detail</h2>
+                    <p>Details for Order ID: <%=order.Orders.orderId%>
+                    </p>
+                </div>
+            </div>
+            <div class="card">
+                <header class="card-header">
+                    <div class="row align-items-center">
+                        <div class="col-lg-6 col-md-6 mb-lg-0 mb-15">
+                            <span>
+                                <i class="material-icons md-calendar_today"></i> <b> &nbsp <%=order.Orders.orderDate%>
+                                </b>
+                            </span> <br>
+                            <small class="text-muted">Order ID: <%=order.Orders.orderId%></small>
+                        </div>
+                        <div class="col-lg-6 col-md-6 ms-auto text-md-end" id="cancelButton">
+                            <div style="display: none;">
+                                <select style="display: none;" class="form-select d-inline-block mb-lg-0 mb-15 mw-200">
+                                    <option>Change status</option>
+                                    <option>Awaiting payment</option>
+                                    <option>Confirmed</option>
+                                    <option>Shipped</option>
+                                    <option>Delivered</option>
+                                </select>
+                            </div>
+                            <% if(order.Orders.delivery_status=="Cancelled" || order.Orders.delivery_status=="Return"
+                                ){%>
+                                <h6 class="mb-1">
+                                    <%=order.Orders.delivery_status%>
+                                </h6>: <%= order.Orders.cancellation_reason%>
+                                    <%}else{%>
+                                        <button type="button" class="btn btn-warning" style="width: auto;"
+                                            data-toggle="modal" data-target="#exampleModal">
+                                            <% if(order.Orders.delivery_status=="Delivered" ){%>Return<%}else{%>Cancel
+                                                    order<%}%>
+
+                                        </button>
+                                        <%}%>
+                                            <a style="display: none;" class="btn btn-primary" href="#">Save</a>
+                                            <a class="btn btn-secondary print ms-2" style="width: auto;" href="#"><i
+                                                    class="icon material-icons md-print"></i></a>
+                        </div>
+                    </div>
+                </header> <!-- card-header end// -->
+                <div class="card-body">
+                    <div class="row mb-50 mt-20 order-info-wrap">
+                        <div class="col-md-4">
+                            <article class="icontext align-items-start">
+                                <span class="icon icon-sm rounded-circle bg-primary-light">
+                                    <i class="text-primary material-icons md-person"></i>
+                                </span>
+                                <div class="text">
+                                    <h6 class="mb-1">Customer</h6>
+                                    <p class="mb-1">
+                                        <%=order.User[0].FirstName%> &nbsp <%=order.User[0].LastName%><br>
+                                                <%=order.User[0].Email%>
+                                                    <br>
+                                                    <%=order.User[0].Mobile[0]%> &nbsp <%=order.User[0].Mobile[1]%>
+                                    </p>
+                                    <a style="display: none;" href="#">View profile</a>
+                                </div>
+                            </article>
+                        </div> <!-- col// -->
+                        <div class="col-md-4" style="display: none;">
+                            <article class="icontext align-items-start">
+                                <span class="icon icon-sm rounded-circle bg-primary-light">
+                                    <i class="text-primary material-icons md-local_shipping"></i>
+                                </span>
+                                <div class="text">
+                                    <h6 class="mb-1">Order info</h6>
+                                    <p class="mb-1">
+                                        Shipping: Fargo express <br> Pay method: card <br> Status: new
+                                    </p>
+                                    <a href="#">Download info</a>
+                                </div>
+                            </article>
+                        </div> <!-- col// -->
+                        <div class="col-md-4">
+                            <article class="icontext align-items-start">
+                                <span class="icon icon-sm rounded-circle bg-primary-light">
+                                    <i class="text-primary material-icons md-place"></i>
+                                </span>
+                                <div class="text">
+                                    <h6 class="mb-1">Deliver to</h6>
+                                    <p class="mb-1">
+                                        <%=order.Orders.address.Name%> <br>
+                                            &nbsp &nbsp &nbsp
+                                            <%=order.Orders.address.AddressType%><br>
+                                                <%=order.Orders.address.Address%>,&nbsp
+                                                    <br>
+                                                    Landmark : <%=order.Orders.address.Landmark%><br>
+                                                        <%=order.Orders.address.Code%><br>
+                                                            <%=order.Orders.address.Email%><br>
+                                                                <%=order.Orders.address.Phone%>
+
+                                    </p>
+                                    <a style="display: none;" href="#">View profile</a>
+                                </div>
+                            </article>
+                        </div> <!-- col// -->
+                    </div> <!-- row // -->
+                    <div class="row">
+                        <div class="col-lg-7">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th width="40%">Product</th>
+                                            <th width="20%">Unit Price</th>
+                                            <th width="20%">Quantity</th>
+                                            <th width="20%" class="text-end">Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% order.Orders.products.forEach(function(order) { %>
+
+                                            <tr>
+                                                <td>
+                                                    <a class="itemside" href="#">
+                                                        <div class="left">
+                                                            <img src="/public/product/<%=order.Images%>" width="40"
+                                                                height="40" class="img-xs" alt="Item">
+                                                        </div>
+                                                        <div class="info">
+                                                            <%=order.Name%>, <%=order.Color%>
+                                                        </div>
+                                                    </a>
+                                                </td>
+                                                <td>₹<s>
+                                                        <%=order.Price%>
+                                                    </s><br><strong style="font-weight: bolder;">
+                                                        ₹ <%=order.DiscountedPrice%>
+                                                    </strong></td>
+                                                <td>
+                                                    <%=order.Quantity%>
+                                                </td>
+                                                <td class="text-end"> ₹<s>
+                                                        <%=order.Total %>
+                                                    </s><br><strong style="font-weight: bolder;">
+                                                        ₹ <%=order.DiscountedTotal%>
+                                                    </strong></td>
+                                                </td>
+                                            </tr>
+                                            <%})%>
+                                                <tr>
+                                                    <td colspan="4">
+                                                        <article class="float-end">
+                                                            <dl class="dlist">
+                                                                <dt>Subtotal:</dt>
+                                                                <dd> ₹ <%=order.Orders.amount.TotalAmount%>
+                                                                </dd>
+                                                            </dl>
+
+                                                            <dl class="dlist">
+                                                                <dt>Product Discount:</dt>
+                                                                <dd> ₹ <%=order.Orders.amount.DiscountedTotal%>
+                                                                </dd>
+                                                            </dl>
+                                                            <dl class="dlist">
+                                                                <dt>Coupon Discount:</dt>
+                                                                <dd> ₹ <%=order.Orders.amount.CouponDiscount%>
+                                                                </dd>
+                                                            </dl>
+                                                            <dl class="dlist">
+                                                                <dt>Grand total:</dt>
+                                                                <dd> <b class="h5">₹
+                                                                        <%=order.Orders.amount.FinalAmount%>
+                                                                    </b>
+                                                                </dd>
+                                                            </dl>
+                                                            <dl id="deliveryStatus" class="dlist">
+                                                                <dt class="text-muted">Status:</dt>
+                                                                <dd>
+                                                                    <% switch (order.Orders.delivery_status) {
+                                                                        case 'Pending' : %>
+                                                                        <span
+                                                                            class="badge rounded-pill alert-warning">Pending</span>
+
+                                                                        <% break; case 'Return' : %> <span
+                                                                                class="badge rounded-pill alert-danger">Return</span>
+                                                                            <% break; case 'Cancelled' : %>
+                                                                                <span
+                                                                                    class="badge rounded-pill alert-danger">Canceled</span>
+                                                                                <% break; case 'Delivered' : %>
+                                                                                    <span
+                                                                                        class="badge rounded-pill alert-success">Delivered</span>
+                                                                                    <% break; default: %>
+                                                                                        <p>Error
+                                                                                        </p>
+                                                                                        <% } %>
+                                                                </dd>
+                                                            </dl>
+                                                        </article>
+                                                    </td>
+                                                </tr>
+                                    </tbody>
+                                </table>
+                            </div> <!-- table-responsive// -->
+                        </div> <!-- col// -->
+                        <div class="col-lg-1"></div>
+                        <div class="col-lg-4">
+                            <div class="box shadow-sm bg-light" style="display: none;">
+                                <h6 class="mb-15">Payment info</h6>
+                                <p>
+                                    <img src="/public/evara/assets/imgs/card-brands/2.png" class="border" height="20">
+                                    Master Card
+                                    **** **** 4768 <br>
+                                    Business name: Grand Market LLC <br>
+                                    Phone: +1 (800) 555-154-52
+                                </p>
+                            </div>
+                            <div style="display: none;" class="h-25 pt-4">
+                                <div class="mb-3">
+                                    <label>Notes</label>
+                                    <textarea class="form-control" name="notes" id="notes"
+                                        placeholder="Type some note"></textarea>
+                                </div>
+                                <button class="btn btn-primary">Save note</button>
+                            </div>
+                        </div> <!-- col// -->
+                    </div>
+                </div> <!-- card-body end// -->
+            </div> <!-- card end// -->
+        </section> <!-- content-main end// -->
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <% if(order.delivery_status=="Delivered" ){%>
+                            <h5 class="modal-title" id="exampleModalLabel">Reason for order Return</h5>
+                            <%}else{%>
+                                <h5 class="modal-title" id="exampleModalLabel">Reason for order cancellation</h5>
+                                <%}%>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                    </div>
+                    <form id="orderCancellationForm">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1"
+                                value="changed my mind">
+                            <label class="form-check-label" for="exampleRadios2">
+                                changed my mind
+                            </label>
+                        </div>
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2"
+                                value="item received with wrong size">
+                            <label class="form-check-label" for="exampleRadios2">
+                                item received with wrong size
+                            </label>
+                        </div>
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3"
+                                value="product looks different from ordered item">
+                            <label class="form-check-label" for="exampleRadios2">
+                                product looks different from ordered item
+                            </label>
+                        </div>
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios4"
+                                value="item received with different color">
+                            <label class="form-check-label" for="exampleRadios2">
+                                item received with different color
+                            </label>
+                        </div>
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios5"
+                                value=" found same product in low price">
+                            <label class="form-check-label" for="exampleRadios2">
+                                found same product in low price
+                            </label>
+                        </div>
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios6"
+                                value=" other reasons">
+                            <label class="form-check-label" for="exampleRadios2">
+                                other reasons
+                            </label>
+                        </div>
+
+                        <div class="modal-footer">
+                            <% if(order.delivery_status=="Delivered" ){%>
+                                <button class="btn btn-primary" data-dismiss="modal"
+                                    onclick="orderCancellation(event,'<%=order.Orders.orderId%>','<%=order.Orders.User%>','Return')">submit</button>
+                                <%}else{%>
+                                    <button class="btn btn-primary" data-dismiss="modal"
+                                        onclick="orderCancellation(event,'<%=order.Orders.orderId%>','<%=order.Orders.User%>','Cancelled')">submit</button>
+                                    <%}%>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        </main>
+
+        <script>
+            async function orderCancellation(event, orderId, userId, status) {
+                const cancelButton = document.getElementById('cancelButton')
+                event.preventDefault()
+                const selectedReason = document.querySelector('input[name="exampleRadios"]:checked');
+                if (selectedReason) {
+                    let form = $('#orderCancellationForm').serializeArray()
+                    console.log("form   :  ", form)
+                    form[0].orderId = orderId
+                    console.log("form   :  ", form)
+                    if (status == "Return") { await axios.put('/returnOrder', form) } else { await axios.put('/cancelOrder', form) }
+
+                    swal({
+                        text: `Order ${status}`,
+                    });
+                    $('#cancelButton').load(`/order/${JSON.parse(`<%- JSON.stringify(id) %>`)}/${orderId} #cancelButton`)
+                    $('#deliveryStatus').load(`/order/${JSON.parse(`<%- JSON.stringify(id) %>`)}/${orderId} #deliveryStatus`)
+
+                } else {
+                    swal({
+                        text: `Need to select a reason for ${status} !`,
+                    });
+                }
+            }
+        </script>
+        <%- include('./userParsels/footer2.ejs') %>

@@ -1,0 +1,26 @@
+
+.user-management {
+    width: 80%;
+    border-radius: 20px;
+    box-shadow: 0 5px 5px rgba(0, 0, 0, .4);
+    margin: 5em auto;
+    display: flex;
+    flex-direction: column;
+    /* Align the content in a column */
+    align-items: center;
+    /* Center the content horizontally */
+
+}
+
+.show-products{
+    width: 90%;
+    border-radius: 20px;
+    box-shadow: 0 5px 5px rgba(0, 0, 0, .4);
+    margin: 5em auto;
+    display: flex;
+    flex-direction: column;
+    /* Align the content in a column */
+    align-items: center;
+    /* Center the content horizontally */
+
+}

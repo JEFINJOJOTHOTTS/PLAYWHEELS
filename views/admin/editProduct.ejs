@@ -1,0 +1,656 @@
+<%- include('./adminParsels/head.ejs') %>
+
+    </head>
+    <style>
+        .col-md-10.row {
+            display: flex;
+            /* Use flexbox to display the columns in the same row */
+            justify-content: flex-start;
+            /* Adjust alignment as needed */
+            align-items: center;
+            /* Adjust alignment as needed */
+        }
+
+        .image-preview-container {
+            width: 150px;
+            /* Adjust the width as needed */
+            height: 150px;
+            /* Adjust the height as needed */
+
+            /* Adjust the height as needed */
+            overflow: hidden;
+            margin-top: 20px;
+            text-align: center;
+            display: inline-block;
+            /* Display containers inline */
+        }
+
+        .image-preview-container img {
+            width: auto;
+            /* Allow each image to adjust to its content width */
+            height: 100%;
+            /* Maintain the aspect ratio */
+            object-fit: cover;
+            display: inline-block;
+            /* Display images inline */
+            margin-right: 10px;
+            /* Adjust the spacing between images */
+        }
+
+
+        #profileImageModal .modal-body {
+            min-height: 200px;
+            max-height: 200px;
+        }
+
+        .imgdiv {
+            height: 200px !important;
+            width: 200px !important;
+        }
+
+        #profilePicture {
+            margin-top: 0px;
+            border: 1px solid red;
+            min-height: 200px;
+            min-width: 200px;
+            max-height: 200px;
+            max-width: 200px;
+        }
+    </style>
+
+    <body class="bgCol">
+
+        <!-- Main Content -->
+        <div
+            class="row container-fluid col-xs-12 col-sm-12 login_form  row user-management  text-center container-fluid">
+
+            <div class="row pt-2">
+                <h2>Add Product</h2>
+            </div>
+
+            <form class="container  text-center" action="/admin/editProduct"
+                onsubmit="return editProductFormValidation(event)" method="POST" id="editProduct"
+                enctype="multipart/form-data">
+                <div class="row  justify-content-center">
+                    <div class="col-md-5 mr-md-4">
+                        <div class="row">
+                            <label for="exampleFormControl" class="mb-0 mt-1">Product Name</label>
+                            <input type="name" name="Name" value="<%= product.Name %>" id="name"
+                                oninput="productNameValidation()" class="form__input mt-0 mb-4"
+                                placeholder="Product Name">
+                            <span id="productError" class="text-danger"></span>
+
+                        </div>
+                    </div>
+                    <div class="col-md-5 ml-md-4">
+                        <div class="row">
+                            <label for="exampleFormControl" class="mb-0 mt-1">Manufactured By</label>
+                            <input type="name" name="Manufacturer" oninput="manufacturerValidation()" id="manufacturer"
+                                value="<%= product.Manufacturer %>" class="form__input mt-0 mb-4"
+                                placeholder="Manufatured By">
+                            <span id="manufacturerError" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-5 mr-md-4">
+                        <div class="row">
+                            <label for="exampleFormControl" class="mb-0 mt-1">Category</label>
+                            <div class="form__input text-left">
+                                <p class="pb-0 mb-0 ">
+                                    <%= product.SubCategory.Name %>
+                                </p>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-5 ml-md-4">
+                        <div class="row">
+                            <label for="exampleFormControl" class="mb-0 mt-1">Sub-Category</label>
+                            <div class="form__input text-left">
+                                <p class="pb-0 mb-0 ">
+                                    <%= product.SubCategory.Sub %>
+                                </p>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-10 mr-md-4 ">
+                        <div class="row">
+                            <label for="exampleFormControl" class="mb-0 mt-1">Dimensions </label>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 mr-md-4">
+                                <div class="row">
+                                    <small for="exampleFormControl" class="mb-0 mt-0">Lenght</small>
+                                    <input type="text" oninput="lenghtValidation()" value="<%= product.Dimensions[0] %>"
+                                        name="Length" id="length" class="form__input mt-0 mb-4 pt-0 pb-1 pl-1 ml-0"
+                                        style="width: 70%;" />
+                                    cm</small>
+                                </div>
+                            </div>
+                            <div class="col-md-3 mr-md-4">
+                                <div class="row">
+                                    <small for="exampleFormControl" class="mb-0 mt-0">Width</small>
+                                    <input type="text" oninput="widthValidation()" name="Width" id="width"
+                                        value="<%= product.Dimensions[1] %>"
+                                        class="form__input mt-0 mb-4 ml-0 pb-1 pt-0 pl-1" style="width: 70%;" />
+                                    cm</small>
+                                </div>
+                            </div>
+                            <div class="col-md-3 mr-md-4">
+                                <div class="row">
+                                    <small for="exampleFormControl" class="mb-0 mt-0">Height</small>
+                                    <input type="text" oninput="heightValidation()" name="Height" id="height"
+                                        value="<%= product.Dimensions[2] %>"
+                                        class="form__input mt-0 mb-4 pl-1 pt-0 pb-1 ml-0" style="width: 70%;" />
+                                    cm</small>
+                                </div>
+                            </div>
+                            <span id="dimensionsError" class="text-danger"></span>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row  justify-content-center">
+                    <div class="col-md-5 mr-md-4">
+                        <div class="row">
+                            <label for="exampleFormControl" class="mb-0 mt-1">Color</label>
+                            <input type="name" name="Color" id="color" oninput="colorValidation()"
+                                value="<%= product.Color %>" class="form__input mt-0 mb-4" placeholder="Color">
+                            <span id="colorError" class="text-danger"></span>
+
+                        </div>
+                    </div>
+                    <div class="col-md-5 ml-md-4">
+                        <div class="row">
+                            <label for="exampleFormControl" class="mb-0 mt-1">Price</label>
+                            <input type="text" oninput="priceValidation()" name="Price" id="price"
+                                value="<%= product.Price %>" class="form__input mt-0 mb-4" placeholder="Price">
+                            <span id="priceError" class="text-danger"></span>
+
+                        </div>
+                    </div>
+                    <div class="col-md-5 mr-md-4">
+                        <div class="row">
+                            <label for="exampleFormControl" class="mb-0 mt-1">Available Stock</label>
+                            <input type="text" oninput="stockValidation()" name="Stock" id="stock"
+                                value="<%= product.Stock %>" class="form__input mt-0 mb-4" placeholder="Stock">
+                            <span id="stockError" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-5 ml-md-4">
+                        <div class="row">
+                            <label for="exampleFormControl" class="mb-0 mt-1">Discount percentage</label>
+                            <select id="discount" class="form-select form__input pt-4 mt-0 mb-4"
+                                value="<%= product.Discount %>" name="Discount">
+                                <% for(let i=0;i<=80;i++){ %>
+                                    <option value="<%= i%>">
+                                        <%= i%> %
+                                    </option>
+                                    <% } ; %>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-5 mr-md-4">
+                        <div class="row">
+                            <label for="exampleFormControl" class="mb-0 mt-1">Offer End Date</label>
+                            <input type="datetime-local" name="DiscountExpiry" id="DiscountExpiry" class="form__input mt-0 mb-4" required />
+                            <span id="dateError" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-md-10 ml-md-4">
+                    <div class="row mt-2 ">
+
+                        <label for="exampleFormControl" class="mb-0 mt-1">Upload Image</label>
+                        <!-- <input type="file" accept="image/*" class="form-control-file ml-3" />
+                            <small class="form-text text-muted ml-3">image format .jpeg</small> -->
+
+                        <input id="image1" name="Image1" class="form-control-file ml-3" type="file" accept="image/*">
+                        <small class="form-text text-muted ml-3">image format .jpg,.png,.gif,.jpeg</small>
+                        <span id="image1Error" class="text-danger" style="max-width: 100%; height: auto;"></span>
+
+                        <input id="image2" name="Image2" value="/public/product/<%= product.Images[1] %>"
+                            class="form-control-file ml-3" type="file" accept="image/*">
+                        <small class="form-text text-muted ml-3">image format .jpg,.png,.gif,.jpeg</small>
+                        <span id="image2Error" class="text-danger" style="max-width: 100%; height: auto;"></span>
+
+
+                    </div>
+                    <div class="col-md-10 row " style="display: block;">
+                        <div class="image-preview-container" style="display: inline-block;">
+                            <img id="imagePreview1" src="/public/product/<%= product.Images[0] %>" alt="Image 1"
+                                class="src imagePreview img-fluid">
+                        </div>
+                        <div class="image-preview-container" style="display: inline-block;">
+                            <img id="imagePreview2" src="/public/product/<%= product.Images[1] %>" alt="Image 2"
+                                class="src imagePreview img-fluid">
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row  justify-content-center" id="form-fields">
+
+                </div>
+                <div class="col-md-5 ml-md-4">
+                    <div class="row">
+                        <label for="exampleFormControl" class="mb-0 mt-1">Power Train</label>
+                        <select id="discount" class="form-select form__input pt-4 mt-0 mb-4" name="PowerTrain">
+
+                            <option value="Manual" <% if(product.PowerTrain =='Manual'){%>selected<%}%> >Manual</option>
+                            <option value="Electric" <% if(product.PowerTrain=='Electric'){%>selected<%}%>>Electric</option>
+                            <option value="Gasoline" <% if(product.PowerTrain=='Gasoline'){%>selected<%}%>>Gasoline</option>
+                            <option value="Stroller" <% if(product.PowerTrain=='Stroller'){%>selected<%}%>>Stroller</option>
+                            <option value="Stroller & Manual" <% if(product.PowerTrain=='Stroller & Manual'){%>selected<%}%>>Stroller & Manual</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row  justify-content-center">
+                    <div class="col-md-10 mr-md-4">
+                        <div class="row">
+                            <label for="exampleFormControl" class="mb-0 mt-1">Description</label>
+
+                            <textarea name="Description" class="form__input mt-0 mb-4 " id="description" rows="4"
+                                oninput="descriptionValidation()"  cols="100" form="editColor" ><%=product.Description%>
+                                </textarea>
+
+                            <span id="descriptionError" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <input type="text" name="id" value="<%= product._id %>" style="display: none;">
+                    <input type="text" name="existingImage1" value="<%= product.Images[0] %>" style="display: none;">
+                    <input type="text" name="existingImage2" value="<%= product.Images[1] %>" style="display: none;">
+
+
+
+                    <input type="submit" value="Edit Product" class="btn">
+                </div>
+            </form>
+            <% if (message){%>
+                <div class="row">
+                    <p>Product Added</p>
+                </div>
+                <%}%>
+                    <div class="row">
+                        <p><a href="/admin/products">Back </a></p>
+                    </div>
+
+                    <!-- Footer -->
+        </div>
+        </div>
+        <script>
+
+
+
+
+            function subValidation() {
+                let SubCategory = document.getElementById('Sub-Category');
+                if (SubCategory.value === '') {
+                    let subError = document.getElementById('subError');
+                    subError = "select sub category"
+                    return false
+                }
+                subError = ""
+                return true
+            }
+
+            // JavaScript code to update the displayed image when a new image is selected
+            function updatePreviewImage(inputIndex) {
+                const imageInput = document.getElementById(`image${inputIndex}`);
+                const previewImage = document.getElementById(`imagePreview${inputIndex}`);
+                const imageError = document.getElementById(`image${inputIndex}Error`);
+
+                // Add an event listener to the file input to update the preview image
+                imageInput.addEventListener('change', function () {
+                    const selectedFile = imageInput.files[0];
+
+                    if (selectedFile) {
+                        // Check if the selected file format is valid
+                        const allowedFormats = ['jpg', 'jpeg', 'png', 'gif'];
+                        const fileFormat = selectedFile.name.split('.').pop().toLowerCase();
+
+                        if (allowedFormats.indexOf(fileFormat) === -1) {
+                            // Display an error message if the format is not allowed
+                            imageError.textContent = 'Invalid image format. Allowed formats: JPG, JPEG, PNG, GIF';
+                            imageInput.value = ''; // Clear the file input
+                            previewImage.src = ''; // Clear the preview image
+                            return;
+                        }
+
+                        // Read the selected file and set it as the source of the preview image
+                        const reader = new FileReader();
+                        reader.onload = function (e) {
+                            previewImage.src = e.target.result;
+                            imageError.textContent = ''; // Clear any previous error message
+                        };
+                        reader.readAsDataURL(selectedFile);
+                    } else {
+                        // If no file is selected, clear the preview image and error message
+                        previewImage.src = '';
+                        imageError.textContent = '';
+                    }
+                });
+            }
+
+            // Call the function to set up the event listeners for both image inputs
+            updatePreviewImage(1);
+            updatePreviewImage(2);
+            const subCategory = document.getElementById("Sub-Category")
+
+            function callSub(category) {
+                // console.log("bbb")
+                axios.get(`/admin/getSubCategory/` + category).then((sub) => {
+                    // subCategory.innerHTML=sub.data
+                    let Sub = sub.data
+
+                    let resultHTML = "";
+                    for (let i = 0; i < Sub.length; i++) {
+                        resultHTML += "<option value='" + sub.data[i]._id + "'>" + sub.data[i].Sub + "</option>";
+                    }
+                    subCategory.innerHTML = resultHTML
+                })
+
+                // console.log(sub.data)
+            }
+
+            const name = document.getElementById("name")
+            const brand = document.getElementById('brand')
+            const category = document.getElementById('category')
+            const discount = document.getElementById('discount')
+            const stock = document.getElementById('stock')
+
+
+
+            const namePattern = /^[A-Za-z0-9' ]{1,20}$/;
+            const pricePattern = /^\d{0,8}(\.\d{1,2})?$/
+            const dimensionPattern = /^[1-9]\d{0,4}$/
+            const discountPattern = /^80|[1-7]?[0-9]$/
+
+
+            async function productNameValidation() {
+                const nameValue = name.value
+                const inputField = name
+                const outputField = productError
+                const outputMessage = "Product "
+                const outputMessage2 = ''
+                const regex = namePattern
+                if (await patternValidation(nameValue, inputField, outputField, outputMessage, regex, outputMessage2)) {
+                    // console.log("product name true")
+                    return true
+                } else {
+                    //console.log("product name false")
+                    return false
+                }
+            }
+
+            // pattern validation
+            function patternValidation(value, inputField, outputField, outputMessage, regex, outputMessage2) {
+                // console.log(value, "String", typeof value)
+                // console.log(value, "Number", value instanceof Number)
+                if (value.trim() == 0) {
+                    inputField.style.color = "red";
+                    outputField.style.color = "red";
+                    outputField.innerHTML = outputMessage + " field can not be blank"
+                    return false;
+                }
+                // console.log(value.trim())
+                if (!value.match(regex)) {
+                    inputField.style.color = "red";
+                    outputField.style.color = "red";
+                    outputField.innerHTML = "Invalid Input,  " + outputMessage2
+                    return false;
+                }
+
+                inputField.style.color = "#1e3932";
+                outputField.innerHTML = ""
+
+                return true
+            }
+
+
+
+
+            //priceValidation
+            async function priceValidation(count) {
+                let price = document.getElementById('price')
+
+                let priceValue = price.value
+                let priceError = document.querySelector(`#priceError`)
+                let inputField = price
+                let outputField = priceError
+                if (count) {
+
+                    price = document.querySelector(`#price${count}`)
+                    //  if (price == null) { priceValue = '' } else { priceValue = price.value }
+                    priceValue = price.value
+                    priceError = document.querySelector(`#priceError${count}`)
+                    inputField = price
+                    outputField = priceError
+                }
+                const regex = pricePattern
+                const outputMessage = "Price"
+                const outputMessage2 = "only numbers, no decimals,if the price is higher than 5Lk Contact Us"
+                if (await patternValidation(priceValue, inputField, outputField, outputMessage, regex, outputMessage2)) {
+                    return true
+                } else {
+                    return false
+                }
+            }
+
+            //colorValidation
+            async function colorValidation(count) {
+                let color = document.getElementById('color')
+
+                let colorValue = color.value
+                let colorError = document.querySelector(`#colorError`)
+                let inputField = color
+                let outputField = colorError
+                if (count) {
+
+                    color = document.querySelector(`#color${count}`)
+                    //if (color === null) { colorValue = '' } else { colorValue = color.value }
+                    colorValue = color.value
+                    colorError = document.querySelector(`#colorError${count}`)
+                    inputField = color
+                    outputField = colorError
+                    // console.log(count)
+                }
+                const regex = namePattern
+                const outputMessage = "color"
+                const outputMessage2 = ""
+                if (await patternValidation(colorValue, inputField, outputField, outputMessage, regex, outputMessage2)) {
+                    return true
+                } else {
+                    return false
+                }
+            }
+
+
+            //lenghtValidation
+            async function lenghtValidation() {
+                let length = document.getElementById('length')
+
+                let lengthValue = length.value
+                let priceError = document.querySelector(`#dimensionsError`)
+                let inputField = length
+                let outputField = dimensionsError
+                const regex = dimensionPattern
+                const outputMessage = "Length"
+                const outputMessage2 = "Length "
+                if (await patternValidation(lengthValue, inputField, outputField, outputMessage, regex, outputMessage2)) {
+                    return true
+                } else {
+                    return false
+                }
+
+            }
+            //widthValidation
+            async function widthValidation() {
+                let width = document.getElementById('width')
+
+                let widthValue = width.value
+                let priceError = document.querySelector(`#dimensionsError`)
+                let inputField = width
+                let outputField = dimensionsError
+                const regex = dimensionPattern
+                const outputMessage = "width"
+                const outputMessage2 = " Width"
+                if (await patternValidation(widthValue, inputField, outputField, outputMessage, regex, outputMessage2)) {
+                    return true
+                } else {
+                    return false
+                }
+
+            }
+
+            //heightValidation
+            async function heightValidation() {
+                let height = document.getElementById('height')
+
+                let heightValue = height.value
+                let priceError = document.querySelector(`#dimensionsError`)
+                let inputField = height
+                let outputField = dimensionsError
+                const regex = dimensionPattern
+                const outputMessage = "height"
+                const outputMessage2 = " height"
+                if (await patternValidation(heightValue, inputField, outputField, outputMessage, regex, outputMessage2)) {
+                    return true
+                } else {
+                    return false
+                }
+
+            }
+
+
+            //stockValidation
+            async function stockValidation(count) {
+                let stock = document.getElementById('stock')
+
+                let stockValue = stock.value
+                let stockError = document.querySelector(`#stockError`)
+                let inputField = stock
+                let outputField = stockError
+                if (count) {
+
+                    stock = document.querySelector(`#stock${count}`)
+                    // if (stock === null) { stockValue = '' } else { stockValue = stock.value }
+                    stockValue = stock.value
+                    // console.log(stockValue)
+                    stockError = document.querySelector(`#stockError${count}`)
+                    inputField = stock
+                    outputField = stockError
+                }
+                const regex = dimensionPattern
+                const outputMessage = "stock"
+                const outputMessage2 = ""
+                if (await patternValidation(stockValue, inputField, outputField, outputMessage, regex, outputMessage2)) {
+                    return true
+                } else {
+                    return false
+                }
+            }
+            //discountValidation
+            async function discountValidation(count) {
+                let discount = document.getElementById('discount')
+
+                let discountValue = discount.value
+                let discountError = document.querySelector(`#discountError`)
+                let inputField = discount
+                let outputField = discountError
+                if (count) {
+
+                    discount = document.querySelector(`#discount${count}`)
+                    discountValue = discount.value
+                    // if (discount === null) { discountValue = '' } else { discountValue = discount.value }
+                    // console.log(discountValue)
+                    discountError = document.querySelector(`#discountError${count}`)
+                    inputField = discount
+                    outputField = discountError
+                }
+                const regex = discountPattern
+                const outputMessage = "discount"
+                const outputMessage2 = ""
+                if (await patternValidation(discountValue, inputField, outputField, outputMessage, regex, outputMessage2)) {
+                    return true
+                } else {
+                    return false
+                }
+            }
+
+            //number validation
+            function numberValidation(value, inputField, outputField, outputMessage, regex, outputMessage2) {
+                if (value.length == 0) {
+                    inputField.style.color = "red";
+                    outputField.style.color = "red";
+                    outputField.innerHTML = outputMessage + " field can not be blank"
+                    return false;
+                }
+                if (!value.match(regex)) {
+                    inputField.style.color = "red";
+                    outputField.style.color = "red";
+                    outputField.innerHTML = "Invalid Input,  " + outputMessage2
+                    return false;
+                }
+
+                //console.log("dhasfsguyjhkdsfj")
+                inputField.style.color = "#1e3932";
+                outputField.innerHTML = ""
+
+                return true
+            }
+
+
+
+            //manufacture Validation
+            async function manufacturerValidation() {
+                const manufacturerValue = manufacturer.value
+                const inputField = manufacturer
+                const outputField = manufacturerError
+                const regex = namePattern
+                const outputMessage = "Manufactured"
+                const outputMessage2 = ''
+                if (await patternValidation(manufacturerValue, inputField, outputField, outputMessage, regex, outputMessage2)) {
+                    return true
+                } else { return false }
+            }
+            async function scriptValidation() {
+                // console.log("scriptVslifation call")
+                // console.log(colorCount)
+                for (let i = 1; i < colorCount; i++) {
+                    if (!(await colorValidation(i)) || !(await priceValidation(i)) || !(await stockValidation(i)) || !(await finalImageValidation(i))) {
+                        return false
+                    }
+                }
+                return true
+            }
+
+            //addProductFormValidation onsubmit
+            async function editProductFormValidation(event) {
+                event.preventDefault()
+                // await console.log("product", !(await productNameValidation()))
+                // await console.log("manufacturer", !(await manufacturerValidation()))
+                // await console.log("category", !(await categoryValidation()))
+                // await console.log("price", !(await priceValidation()))
+                if (!(await productNameValidation()) || !(await manufacturerValidation()) || !(await priceValidation())) {
+                    console.log("generalValidation")
+                    return false
+                }
+                console.log("submition")
+                document.getElementById("editProduct").submit();
+
+                return true
+
+            }
+
+
+
+        </script>
+
+    </body>
+
+    </html>

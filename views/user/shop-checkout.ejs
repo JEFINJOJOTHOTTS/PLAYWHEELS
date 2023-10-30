@@ -1,0 +1,664 @@
+﻿<%- include('./userParsels/head.ejs') %>
+    <%- include('./userParsels/header.ejs') %>
+
+
+        <section class="marginTop">
+            <div class="row p-4">
+                <div class="col-md-6">
+                    <div class="">
+                        <div class="heading_s1 mb-3">
+                            <h4>Apply Coupon</h4>
+                        </div>
+                        <div class="ml-5">
+                            <a href="#" data-toggle="modal" data-target="#couponAvailable" id="couponButton"
+                                onclick="availableCoupon()"><i class="bi bi-view-list">
+                                    Available coupons</i></a>
+                        </div>
+                        <div class="total-amount">
+                            <div class="left">
+                                <div class="coupon">
+                                    <form action="#" class="col-md-12" onsubmit="applyCoupon(event)" id="couponForm"
+                                        target="_blank">
+                                        <div class="form-row row justify-content-center">
+                                            <div class="form-group col-lg-6">
+                                                <input class="font-medium" id="couponCode" name="Coupon"
+                                                    placeholder="Enter Your Coupon">
+                                            </div>
+                                            <div class="form-group col-lg-6 pt-0">
+                                                <button class="btn mt-0  btn-sm"><i
+                                                        class="fi-rs-label mr-10"></i>Apply</button>
+                                            </div>
+                                        </div> <span class="text-center" style="color: red;" id='couponMessage'></span>
+
+
+
+                                    </form>
+                                    <div class="form-group col-md-12" id="CancelCoupon">
+                                        <a class="btn btn-sm btn-warning" href="/placeOrder" style="background:orange ;"
+                                            id="cancelCouponButton">
+                                            <i class="fi-rs-label mr-10"></i>Cancel Coupon
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-25">
+                        <h4>Billing Details</h4>
+                    </div>
+                    <form method="post" id="placeOrderForm" action="/placeOrder"
+                        onsubmit="return stockAvailability(event)">
+
+                        <% if(DeliveryAddress){%>
+                            <% DeliveryAddress.forEach(function(data, index) { %>
+                                <div class="card col-md-10 m-auto">
+                                    <div class="card-body">
+                                        <h5 class="card-title">
+                                            <%= data.Name %>
+                                        </h5>
+                                        <h6 class="card-subtitle mb-2 text-muted">
+                                            <%= data.AddressType %>
+                                        </h6>
+                                        <p class="card-text"><strong>Address : </strong>
+                                            <%= data.Address %>
+                                        </p>
+                                        <p class="card-text"><strong>Landmark : </strong>
+                                            <%= data.Landmark %>
+                                        </p>
+                                        <p class="card-text"><strong>Pin Code : </strong>
+                                            <%= data.Pin %>
+                                        </p>
+                                        <p class="card-text"><strong>Phone : </strong>
+                                            <%= data.Phone %>
+                                        </p>
+                                        <p class="card-text"><strong>Email : </strong>
+                                            <%= data.Email %>
+                                        </p>
+
+                                        <!-- Radio button for selection -->
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="Address"
+                                                id="address<%= index %>" value="<%=index%>" checked="">
+                                            <label class="form-check-label" for="address<%= index %>">
+                                                Select this address
+                                            </label>
+                                        </div>
+
+                                        <!-- Edit button that opens a modal -->
+                                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                                            data-target="#editModal<%= index %>">
+                                            Edit
+                                        </button>
+
+
+                                    </div>
+                                </div>
+
+                                <% }) %>
+
+                                    <%}else{%> <input class="form-check-input" type="radio" name="Address" id="address">
+                                        <%}%>
+                                            <button type="button" class="btn btn-primary" data-toggle="modal"
+                                                data-target="#addModal">
+                                                ADD NEW ADDRESS
+                                            </button>
+                </div>
+                <div style="display: none;">
+                    <div class="mb-25">
+                        <h4>Billing Details</h4>
+                    </div>
+                    <div class="mb-20">
+                        <h5>Additional information</h5>
+                    </div>
+                    <div class="form-group mb-30">
+                        <textarea rows="5" placeholder="Order notes"></textarea>
+
+                    </div>
+
+                </div>
+                <div class="col-md-6">
+                    <div class="order_review">
+                        <div class="mb-20">
+                            <h4>Your Orders</h4>
+                        </div>
+                        <div class="table-responsive order_table text-center">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th colspan="2">Product</th>
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody><input style="display: none;" name="cartItems" value="<%=cartItems%>">
+                                    <% cartItems.forEach(function(cartItem) { %>
+                                        <tr>
+                                            <td class="image product-thumbnail "><img
+                                                    src="/public/product/<%=cartItem.Images%>" alt="#"></td>
+                                            <td>
+                                                <h5><a href="shop-product-full.html">
+                                                        <%=cartItem.Name%>
+                                                    </a></h5> <span class="product-qty">x <%=cartItem.Quantity%>
+                                                </span>
+                                            </td>
+                                            <td><s> ₹<%= cartItem.Total%></s><br><strong>₹<%= cartItem.DiscountedTotal
+                                                        %></strong>
+                                            </td>
+                                        </tr>
+                                        <%})%><input style="display: none;" id="totalAmount" name="TotalAmount"
+                                                value="<%=totalAmount[0].Total%>">
+                                            <tr>
+                                                <th>SubTotal</th>
+                                                <td class="product-subtotal" colspan="2">₹<%= totalAmount[0].Total %>
+                                                </td>
+                                            </tr>
+
+
+                                            <tr>
+                                                <th>Discount Amount</th>
+                                                <td class="product-subtotal" colspan="2">₹<span id="DiscountedTotal">
+                                                        <%= totalAmount[0].Total - totalAmount[0].DiscountedTotal %>
+                                                    </span>
+
+                                                </td>
+                                                <td style="display: none;">
+                                                    <input type="text" id="DiscountedTotalInp" value="<%=
+                                                    totalAmount[0].Total - totalAmount[0].DiscountedTotal %>"
+                                                        name="DiscountedTotal">
+                                                    <input type="text" id="CouponCodeInp" name="CouponCode">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>Coupon Discount</th>
+                                                <td colspan="2"><em>₹ <span id="couponDiscount">0</span></em>
+                                                </td>
+                                                <td style="display: none;">
+                                                    <input type=" text" id="couponDiscountInp" placeholder="0"
+                                                        name="CouponDiscount">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>Total</th>
+                                                <td colspan="2" class="product-subtotal"><strong
+                                                        class="font-xl text-brand fw-900">₹<span id="finalAmount">
+                                                            <%= totalAmount[0].DiscountedTotal %>
+                                                        </span></strong>
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <input type="text" id="finalAmountInp"
+                                                        value="<%= totalAmount[0].DiscountedTotal %>"
+                                                        name="FinalAmount">
+                                                </td>
+
+                                            </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="bt-1 border-color-1 mt-30 mb-30"> <input type="text" style="display:none;"
+                                id="Razorpay" name="Razorpay">
+                            <input type="text" style="display: none;" id="OrderId" name="OrderId">
+                        </div>
+                        <div class="payment_method">
+                            <div class="mb-25">
+                                <h5>Payment</h5>
+                            </div>
+                            <div class="payment_option">
+                                <div class="custome-radio">
+                                    <input class="form-check-input" required="" value="OnlinePayment" type="radio"
+                                        name="payment_option" id="exampleRadios3" checked="">
+                                    <label class="form-check-label" for="exampleRadios3" data-bs-toggle="collapse"
+                                        data-target="#bankTranfer" aria-controls="bankTranfer">Online
+                                        Payment</label>
+                                    <div class="form-group collapse in" id="bankTranfer">
+                                        <p class="text-muted mt-5">There are many variations of passages of
+                                            Lorem Ipsum available, but the majority have suffered alteration.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="custome-radio">
+                                    <input class="form-check-input" required="" type="radio" name="payment_option"
+                                        id="exampleRadios4" value="COD" checked="">
+                                    <label class="form-check-label" for="exampleRadios4" data-bs-toggle="collapse"
+                                        data-target="#COD" aria-controls="COD">C O
+                                        D</label>
+                                    <div class="form-group collapse in" id="COD">
+                                        <p class="text-muted mt-5">Please send your cheque to Store Name, Store
+                                            Street, Store Town, Store State / County, Store Postcode. </p>
+                                    </div>
+                                </div>
+                                <div class="custome-radio">
+                                    <input class="form-check-input" required="" value="Wallet" type="radio"
+                                        name="payment_option" id="exampleRadios5" checked="">
+                                    <label class="form-check-label" for="exampleRadios5" data-bs-toggle="collapse"
+                                        data-target="#paypal" aria-controls="paypal">Wallet</label>
+                                    <div class="form-group collapse in" id="paypal">
+                                        <p class="text-muted mt-5">Pay via PayPal; you can pay with your credit
+                                            card if you don't have a PayPal account.</p>
+                                    </div>
+                                </div>
+                                <span class="text-center" style="color: red;" id='WalletMessage'></span>
+                            </div>
+
+                        </div>
+                        <button type="submit" class="btn btn-fill-out btn-block mt-30">Place Order</button>
+                    </div>
+                    </form>
+                </div>
+            </div>
+            </div>
+            </div>
+        </section>
+        </main>
+        <!-- Preloader Start -->
+        <div id="preloader-active">
+            <div class="preloader d-flex align-items-center justify-content-center">
+                <div class="preloader-inner position-relative">
+                    <div class="text-center">
+                        <h5 class="mb-5">Now Loading</h5>
+                        <div class="loader">
+                            <div class="bar bar1"></div>
+                            <div class="bar bar2"></div>
+                            <div class="bar bar3"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="couponAvailable" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <label for="minimum-purchase-amount">Coupon Description:</label>
+                    <div class="table-responsive">
+                        <table class="table table-hover" style="overflow: hidden;">
+                            <thead>
+                                <tr style="background-color: rgb(199, 210, 206);">
+                                    <th class="text-center">Sl No.</th>
+                                    <th class="text-center">Coupon code</th>
+                                    <th class="text-center">Offer Percentage</th>
+                                    <th class="text-center">Description</th>
+                                    <th class="text-center">Valid Till</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ordersContainer">
+                                <% Coupons.forEach(function(coupon, index){%>
+                                    <tr>
+                                        <td class="text-center">
+                                            <%= index+1 %>
+                                        </td>
+                                        <td class="text-center">
+                                            <%= coupon.CouponCode%>
+                                        </td>
+                                        <td class="text-center">
+                                            <%= coupon.DiscountPercentage%>
+                                        </td>
+                                        <td class="text-center">
+                                            <%= coupon.Description%>
+                                                <br>Upto <%= coupon.MaxDiscountAmount%>
+                                                    <br> for a purchace <br>
+                                                    with minimum amount of ₹<%= coupon.MinAmount%> for category
+                                                        <%= coupon.Category%>
+
+                                        </td>
+                                        <td>
+                                            <%= coupon.EndDate%>
+                                        </td>
+                                    </tr>
+                                    <%})%>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal for editing -->
+        <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editModalLabel">Add Address</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Form fields for editing -->
+                        <!-- You can pre-fill these fields with the data for editing -->
+                        <form action="/addAddress" method="post">
+                            <div class="form-group">
+                                <label for="addName">Name</label>
+                                <input type="text" name="Name" class="form-control" id="addName" required>
+
+                            </div>
+                            <div class="form-group">
+                                <label for="addName">Address Type</label>
+                                <div class="custom_select">
+
+                                    <select name="AddressType" class="form-control
+                                            select-active">
+                                        <option value="Home">HOME</option>
+                                        <option value="Work">WORK SPACE</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="addName">Address</label>
+                                <input type="text" name="Address" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="addName">Landmark</label>
+                                <input type="text" name="Landmark" class="form-control" required>
+                            </div>
+                            <div class="form-group"> <label for="addName">Phone</label>
+                                <input type="text" name="Phone" class="form-control" required>
+
+                            </div>
+                            <div class="form-group">
+                                <label for="addName">Email</label>
+                                <input type="email" name="Email" class="form-control" required>
+
+                            </div>
+                            <div class="form-group">
+                                <label for="addName">Pin Code</label>
+                                <input type="text" name="Pin" class="form-control" required>
+                            </div>
+
+                            <!-- Add more form fields for editing (addressType, Address, Landmark, Pin, Phone, Email) -->
+                            <!-- ... -->
+
+                            <button type="submit" class="btn btn-primary">Save
+                                Changes</button>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        </div>
+
+
+        <% if(DeliveryAddress){%>
+            <% DeliveryAddress.forEach(function(data, index) { %>
+
+
+                <!-- Modal for editing -->
+                <div class="modal fade" id="editModal<%= index %>" tabindex="-1" role="dialog"
+                    aria-labelledby="editModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editModalLabel">Edit Address</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <!-- Form fields for editing -->
+                                <!-- You can pre-fill these fields with the data for editing -->
+                                <form action="/editAddress">
+                                    <div class="form-group">
+                                        <input type="number" style="display: none;" value="<%=index %>">
+
+                                        <label for="editName">Name</label>
+                                        <input type="text" name="Name" class="form-control" id="editName"
+                                            value="<%= data.Name %>" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="editName">Address Type</label>
+                                        <div class="custom_select">
+
+                                            <select name="AddressType" value="<%=
+                                                    data.AddressType %>" class="form-control
+                                                    select-active">
+                                                <option value="Home">HOME</option>
+                                                <option value="Work">WORK SPACE</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="editName">Address</label>
+                                        <input type="text" name="Address" class="form-control"
+                                            value="<%= data.Address %>" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="editName">Landmark</label>
+                                        <input type="text" name="Landmark" class="form-control"
+                                            value="<%= data.Landmark %>" required>
+                                    </div>
+                                    <div class="form-group"> <label for="editName">Phone</label>
+                                        <input type="text" name="Phone" class="form-control" value="<%= data.Phone %>"
+                                            required>
+
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="editName">Email</label>
+                                        <input type="email" name="Email" class="form-control" value="<%= data.Email %>"
+                                            required>
+
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="editName">Pin Code</label>
+                                        <input type="text" name="Pin" class="form-control" value="<%= data.Pin %>"
+                                            required>
+                                    </div>
+
+                                    <!-- Add more form fields for editing (addressType, Address, Landmark, Pin, Phone, Email) -->
+                                    <!-- ... -->
+
+                                    <button type="submit" class="btn btn-primary">Save
+                                        Changes</button>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                </div>
+
+                <% }) %>
+
+                    <%}%>
+                        <!-- Vendor JS-->
+
+
+
+                        <%- include('./userParsels/footer.ejs') %>
+                            <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+                            <script>
+
+                                const WalletMessage = document.getElementById('WalletMessage')
+                                const RazorpayInput = document.getElementById('Razorpay')
+                                const OrderIdInput = document.getElementById('OrderId')
+                                const finalAmount = document.getElementById('finalAmount')
+                                const finalAmountInp = document.getElementById('finalAmountInp')
+
+                                const CouponCodeInp = document.getElementById('CouponCodeInp')
+                                async function stockAvailability(event) {
+                                    event.preventDefault()
+                                    finalAmountInp.value = finalAmountInp.value.trim()
+                                    let addressOption = document.querySelector('input[name="Address"]:checked');
+
+                                    if (!addressOption) {
+                                        console.log("addressOption    :  ", addressOption)
+                                        WalletMessage.innerHTML = `Enter Address to Deliver`
+
+                                        return false
+                                    }
+                                    const response = await axios.get('/shockAvailabilityOrder')
+                                    console.log(response.data)
+                                    if (response.data) {
+
+                                        let selectedPaymentOption = document.querySelector('input[name="payment_option"]:checked').value;
+                                        console.log("Selected payment option: ", selectedPaymentOption);
+
+                                        if (selectedPaymentOption == "OnlinePayment") {
+                                            console.log("ghdafsuygui")
+                                            const RazorpayDetails = await axios.get('/razorpay/' + finalAmountInp.value);
+                                            console.log("Razorpay Details:", RazorpayDetails.data);
+                                            RazorpayInput.value = RazorpayDetails.data.receipt
+                                            OrderIdInput.value = RazorpayDetails.data.id
+                                            console.log(RazorpayInput)
+                                            await razorpay(RazorpayDetails.data.receipt, RazorpayDetails.data.id, RazorpayDetails.data.amount);
+
+                                        } else if (selectedPaymentOption == "Wallet") {
+                                            const wallet = await axios.get('/walletPayment/' + finalAmountInp.value)
+                                            if (await wallet.data.status) {
+                                                console.log("wallet.data.status  ", wallet.data.status)
+                                                document.getElementById("placeOrderForm").submit();
+
+                                            }
+
+                                            WalletMessage.innerHTML = `Insufficient Ammount in Wallet;<br>  Wallet Amount : ${wallet.data}`
+                                        } else {
+                                            console.log("blah")
+                                            document.getElementById("placeOrderForm").submit();
+
+                                        }
+
+                                    }
+                                    else {
+                                        window.location.href = '/cart';
+                                    }
+
+
+                                }
+
+
+                                async function razorpay(receipt, id, amount) {
+
+                                    var options = {
+
+                                        "key": "rzp_test_JIrmBsjv9L7pzw", // Enter the Key ID generated from the Dashboard
+                                        "amount": amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+                                        "currency": "INR",
+                                        "name": "Playwheels",
+                                        "description": "Test Transaction",
+                                        "image": "https://example.com/your_logo",
+                                        "order_id": id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+                                        "handler": async function (response) {
+                                            console.log("response   :  ", response)
+                                            await swal({
+                                                title: 'Razorpay Payment Id',
+                                                text: response.razorpay_payment_id
+                                            });
+                                            // alert(response.razorpay_order_id);
+                                            // alert(response.razorpay_signature)
+
+                                            // stock availablity
+                                            const respo = await axios.get('/shockAvailabilityOrder')
+                                            console.log(respo.data)
+                                            if (respo.data) {
+                                                // continue
+                                                document.getElementById("placeOrderForm").submit();
+                                            } else {
+                                                const RazorpayDetails = { id, receipt, amount, response }
+                                                await axios.post('/addToRefund', RazorpayDetails)
+                                                await swal({
+                                                    text: 'Product Out of stock ; Amount is credited to your wallet',
+                                                })
+                                                window.location.href = '/cart';
+
+                                                // RazorpayDetails
+                                            }
+                                        },
+                                        "prefill": {
+                                            "name": "Gaurav Kumar",
+                                            "email": "gaurav.kumar@example.com",
+                                            "contact": "9000090000"
+                                        },
+                                        "notes": {
+                                            "address": "Razorpay Corporate Office"
+                                        },
+                                        "theme": {
+                                            "color": "#3399cc"
+                                        }
+                                    };
+                                    var rzp1 = new Razorpay(options);
+                                    rzp1.on('payment.failed', async function (response) {
+                                        await swal({ text: "payment failed" })
+                                        // alert(response.error.code);
+                                        // alert(response.error.description);
+                                        // alert(response.error.source);
+                                        // alert(response.error.step);
+                                        // alert(response.error.reason);
+                                        // alert(response.error.metadata.order_id);
+                                        // alert(response.error.metadata.payment_id);
+                                        window.location.href = '/cart';
+
+                                    });
+                                    await rzp1.open();
+                                    // e.preventDefault();
+
+
+                                }
+
+
+
+                                //applyCoupon
+                                async function applyCoupon(event) {
+                                    event.preventDefault()
+                                    const totalAmount = document.getElementById('totalAmount').value
+                                    const DiscountedTotalInp = document.getElementById('DiscountedTotalInp')
+                                    const DiscountedTotal = document.getElementById('DiscountedTotal')
+                                    const couponDiscount = document.getElementById('couponDiscount')
+                                    const couponDiscountInp = document.getElementById('couponDiscountInp')
+                                    const couponMessage = document.getElementById('couponMessage')
+                                    let newDiscount = 0
+                                    let couponCode = document.getElementById('couponCode').value
+
+                                    CouponCodeInp.value = couponCode
+
+                                    console.log("couponCode   :   ", couponCode)
+                                    couponMessage.innerHTML = ""
+                                    if (couponCode.trim() != 0) {
+                                        couponCode = couponCode.trim()
+                                        console.log("couponCode   :   ", couponCode)
+                                        const response = await axios.get('/applyCoupon/' + couponCode)
+                                        console.log("response", response.data)
+                                        console.log("   afgshh   ", DiscountedTotalInp.value)
+                                        const responseData = response.data
+                                        if (responseData.status) {
+                                            if (responseData.couponPriority) {
+                                                console.log("newDiscount", newDiscount)
+                                                newDiscount = DiscountedTotalInp.value - responseData.totalProductDiscount
+
+                                                console.log("newDiscount", newDiscount)
+                                                couponDiscountInp.value = responseData.couponDiscount
+                                                DiscountedTotalInp.value = newDiscount
+                                                couponDiscount.innerHTML = responseData.couponDiscount
+                                                DiscountedTotal.innerHTML = newDiscount
+                                                finalAmount.innerHTML = totalAmount - newDiscount - responseData.couponDiscount
+                                                finalAmountInp.value = totalAmount - newDiscount - responseData.couponDiscount
+
+                                            }
+                                        } else {
+                                            $('#DiscountedTotalInp').load('/placeOrder #DiscountedTotalInp');
+                                            $('#DiscountedTotal').load('/placeOrder #DiscountedTotal');
+                                            $('#finalAmountInp').load('/placeOrder #finalAmountInp');
+                                            $('#finalAmount').load('/placeOrder #finalAmount');
+                                            couponDiscountInp.value = 0
+                                            couponDiscount.innerHTML = 0
+                                            couponMessage.innerHTML = "Invalid Coupon"
+                                            CouponCodeInp.value = ""
+
+                                        }
+
+                                    } else {
+
+                                        $('#DiscountedTotalInp').load('/placeOrder #DiscountedTotalInp');
+                                        $('#DiscountedTotal').load('/placeOrder #DiscountedTotal');
+                                        $('#finalAmountInp').load('/placeOrder #finalAmountInp');
+                                        $('#finalAmount').load('/placeOrder #finalAmount');
+                                        couponDiscountInp.value = 0
+                                        couponDiscount.innerHTML = 0
+                                        couponMessage.innerHTML = "Field is Empty"
+                                        CouponCodeInp.value = ""
+                                    }
+                                }
+
+                            </script>
