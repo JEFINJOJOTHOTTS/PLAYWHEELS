@@ -28,7 +28,7 @@ module.exports = {
                 if (userCart) {
                     console.log("Existing Cart:", userCart);
                     let itemIndex = userCart.Items.findIndex(item => item.ProductId.equals(itemObjectId));
-
+                   
                     if (itemIndex !== -1) {
                         await Cart.updateOne(
                             { User: userId, 'Items.ProductId': itemObjectId },

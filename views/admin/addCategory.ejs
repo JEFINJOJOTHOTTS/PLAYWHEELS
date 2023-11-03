@@ -35,7 +35,8 @@
     </style>
 
     <body class="bgCol">
-        <div class="pt-5 pb-5">--</div>
+        <div class="pt-5 pb-5"><h1 class="mt-5 ml-5"><a href="/admin/products" class="text-decoration-none ">PLAYWHEELS</a></h1>
+        </div>
         <!-- Main Content -->
         <div
             class="row mt-5 container-fluid col-xs-12 col-sm-12 login_form  row user-management  text-center container-fluid">
@@ -343,15 +344,16 @@
 
             function finalImageValidation() {
                 var fileInput = document.getElementById('image');
-
+                var erer = document.getElementById('imageError');
+                    
                 var filePath = fileInput.value;
                 var allowedExtensions = /(\.jpg|\.jpeg\.png|\.gif)$/i;
                 if (!allowedExtensions.exec(filePath)) {
-                    var erer = document.getElementById('imageError');
                     erer.innerHTML = '<i class="fa fa-close"></i> Sorry, only accepted files are .jpg,.png,.gif,.jpeg ';
                     fileInput.value = '';
                     return false;
                 } else {
+                    erer.innerHTML = ''
                     console.log("image validated")
                     return true
                 }
@@ -359,11 +361,11 @@
 
             function imageValidation() {
                 var fileInput = document.getElementById('image');
-
+                var erer = document.getElementById('imageError');
+                  
                 var filePath = fileInput.value;
                 var allowedExtensions = /(\.jpg|\.jpeg\.png|\.gif)$/i;
                 if (!allowedExtensions.exec(filePath)) {
-                    var erer = document.getElementById('imageError');
                     erer.innerHTML = '<i class="fa fa-close"></i> Sorry, only accepted files are .jpg,.png,.gif,.jpeg ';
                     fileInput.value = '';
                     return false;
@@ -371,6 +373,7 @@
                     //Image preview
                     if (fileInput.files && fileInput.files[0]) {
                         document.getElementById('imagePreview').src = URL.createObjectURL(event.target.files[0])
+                        erer.innerHTML = ''
                         previewContainer.style.display = 'block'; // Show the preview container
                         previewImage.style.display = 'block'
                     }

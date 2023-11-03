@@ -120,8 +120,8 @@
                                                             <%}%>
                                                     </div>
                                                     <div class="product-action-1 show">
-                                                        <a aria-label="Add To Cart" <% if(user){%> onclick="cartAction('
-                                                            <%=product._id %>')"
+                                                        <a aria-label="Add To Cart" <% if(user){%>
+                                                            onclick="cartAction('<%=product._id %>')"
                                                                 <%}else{%>
                                                                     onclick="loginSwal()" <%}%> class="action-btn
                                                                         hover-up"
