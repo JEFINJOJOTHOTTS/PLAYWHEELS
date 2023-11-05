@@ -86,7 +86,7 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
             try {
                 const currentDate = new Date();
-                Coupon.find({ CouponStatus: true, EndDate: { $lt: currentDate } }).then((activeCoupon) => {
+                Coupon.find({ CouponStatus: true, EndDate: { $gte: currentDate } }).then((activeCoupon) => {
                     resolve(activeCoupon)
                 })
             }
@@ -106,7 +106,7 @@ module.exports = {
             try {
 
                 const currentDate = new Date()
-                Coupon.findOne({ CouponCode: couponCode, CouponStatus: true, EndDate: { $lt: currentDate } }).then((activeCoupon) => {
+                Coupon.findOne({ CouponCode: couponCode, CouponStatus: true, EndDate: { $gte: currentDate } }).then((activeCoupon) => {
                     resolve(activeCoupon)
                 })
             }

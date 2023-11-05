@@ -7,7 +7,7 @@
                 <div class="row">
                     <div class="col-lg-12 col-md-12">
                         <div>
-                                       </div>
+                        </div>
                     </div>
 
 
@@ -64,8 +64,8 @@
                         <div class="total-amount">
                             <div class="left">
                                 <div class="coupon">
-                                    <form action="#" class="col-md-12" onsubmit="applyCoupon(event)"
-                                        id="couponForm" target="_blank">
+                                    <form action="#" class="col-md-12" onsubmit="applyCoupon(event)" id="couponForm"
+                                        target="_blank">
                                         <div class="form-row row justify-content-center">
                                             <div class="form-group col-lg-4">
                                                 <input class="font-medium" id="couponCode" name="Coupon"
@@ -75,15 +75,14 @@
                                                 <button class="btn  btn-sm"><i
                                                         class="fi-rs-label mr-10"></i>Apply</button>
                                             </div>
-                                        </div> <span class="text-center" style="color: red;"
-                                            id='couponMessage'></span>
+                                        </div> <span class="text-center" style="color: red;" id='couponMessage'></span>
 
 
 
                                     </form>
                                     <div class="form-group col-md-12" id="CancelCoupon">
-                                        <a class="btn btn-sm btn-warning" href="/placeOrder"
-                                            style="background:orange ;" id="cancelCouponButton">
+                                        <a class="btn btn-sm btn-warning" href="/placeOrder" style="background:orange ;"
+                                            id="cancelCouponButton">
                                             <i class="fi-rs-label mr-10"></i>Cancel Coupon
                                         </a>
                                     </div>
@@ -91,19 +90,20 @@
                             </div>
                         </div>
                     </div>
-     
+
                     <div class="mb-25">
                         <h4>Billing Details</h4>
                     </div>
-                    <div class="card col-md-10 m-auto" >
+                    <div class="card col-md-10 m-auto">
                         <div class="card-body">
-                          <h5 class="card-title">Card title</h5>
-                          <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                          <a href="#" class="card-link">Card link</a>
-                          <a href="#" class="card-link">Another link</a>
+                            <h5 class="card-title">Card title</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk
+                                of the card's content.</p>
+                            <a href="#" class="card-link">Card link</a>
+                            <a href="#" class="card-link">Another link</a>
                         </div>
-                      </div>
+                    </div>
                     <div style="display: none;">
                         <div class="mb-25">
                             <h4>Billing Details</h4>
@@ -288,10 +288,8 @@
                                                             <%= totalAmount[0].DiscountedTotal %>
                                                         </span></strong>
                                                     </span>
-                                                </td>
-                                                <td>
-                                                    <input type="text" id="finalAmountInp"
-                                                        value="  <%= totalAmount[0].DiscountedTotal %>"
+                                                    <input style="display: none;" type="text" id="finalAmountInp"
+                                                        value="<%= totalAmount[0].DiscountedTotal %>"
                                                         name="FinalAmount">
                                                 </td>
 

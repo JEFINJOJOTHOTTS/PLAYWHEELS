@@ -37,7 +37,7 @@ module.exports = {
             const [cartItems, totalAmount] = await cartHelper.getCartProduct(res.locals.user._id);
             const cart = await cartHelper.getCart(res.locals.user._id)
 
-            const [deleteResult, addressResult, stockUpdateResult, OrderId] = await Promise.all([
+            const [deleteResult,  stockUpdateResult, OrderId] = await Promise.all([
                 cartHelper.deleteCartProduct(res.locals.user._id),
                 // userHelpers.updateAddress(req.body, res.locals.user._id),
                 productHelper.stockUpdate(cartItems),
