@@ -106,7 +106,7 @@ const loadEmailVerification = async (req, res) => {
         //sendMail
         const subject = "PLAYWHEELS : Email Verification OTP"
         const content = `<b>Verification code OTP for PLAYWHEELS :` + req.session.otp + `</b>`
-        // Mail.sendMail(subject, content, Email)
+        Mail.sendMail(subject, content, Email)
     }
     catch (err) {
         res.render('error404', { title: 'Error' })
