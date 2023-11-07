@@ -177,7 +177,11 @@ const login = async (req, res) => {
 
                         res.redirect('/shop')
                     }
-                    else res.redirect('/emailVerification')
+                    else {
+                        req.session.Email = user.Email
+                        //redirect to emailVerification
+                        res.redirect(`/emailVerification`);
+                    }
                 } else {
                     message = "Incorrect Email or Password"
                     res.render('user/login', { title: "Login", message: message })
