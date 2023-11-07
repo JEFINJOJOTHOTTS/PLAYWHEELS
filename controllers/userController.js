@@ -178,8 +178,9 @@ const login = async (req, res) => {
                         res.redirect('/shop')
                     }
                     else {
+                        // redirect to emailVerification
+                        
                         req.session.Email = user.Email
-                        //redirect to emailVerification
                         res.redirect(`/emailVerification`);
                     }
                 } else {
